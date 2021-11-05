@@ -12,5 +12,9 @@ Time Commitment: Each week each member will try to give around 5 hours of dedica
 Conflict Resolution: Majority wins when we are discussing conflicts, and make a decision after a day and stick to one direction. We will try to make up the work not done and discuss how the team memebers who did not get done can do more. For habitually late memebers we will have them do squats. 1 squat for every minute they are late. We will deal with problems should and as they arise.
 
 We agree to the contract above: 
+
 Allen Shen netid: allens3
+
 Zekai Zhang netid: zekaiz2
+
+Jacob Albus: albus2
