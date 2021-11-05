@@ -13,3 +13,4 @@ Conflict Resolution: Majority wins when we are discussing conflicts, and make a 
 
 We agree to the contract above: 
 Allen Shen netid: allens3
+Zekai Zhang netid: zekaiz2
