@@ -5,7 +5,7 @@ Progress:
 	We continued to brainstorm for a topic for our final project. We also signed the contract. At this point we are still ahead of our deadline. 
 
 
-
+////////////////////
 
 
 Weekly Log Date: 11/5/2021
