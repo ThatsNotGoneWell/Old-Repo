@@ -21,4 +21,3 @@ Next steps: README file; Data Acquisition
 Weekly Log 
 Date: 11/12/2021
 Progress: On Wednesday, we have received an email saying our proposal is rejected. Upon receving the email, we have discussed ways to resolve this issue using Wechat. Most issues are fixed on Wednesday, but we still need some clarifications, so we contacted our mentor. Unfortunately, we still haven't received any furthur response from our mentor through either Discord or email. Still, since the issues doesn't affect our leading questions or timeline, we carried on. A README file was made and we started Data Acuqisition as well as brainstorming a way to process the data and setting up a structure for our algorithm. We also set up a CodeShare file for us to work on the same piece of code at the same time. Overall, we are right on the timeline as long as the proposal can be approved after feedback from the tutor is received.
->>>>>>> 466f024daad8148dc8fe3a8b109d006b1d45c9a7
