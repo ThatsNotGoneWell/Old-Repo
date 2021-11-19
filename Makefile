@@ -1,5 +1,4 @@
-EXENAME = lab_intro
-# OBJS = main.o PNG.o HSLAPixel.o lodepng.o lab_intro.o
+EXENAME = main
 OBJS = main.o graph.o
 
 CXX = clang++
@@ -33,35 +32,11 @@ output_msg: ; $(CLANG_VERSION_MSG)
 $(EXENAME) : output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
-# main.o : main.cpp lab_intro.h cs225/PNG.h cs225/HSLAPixel.h
-main.o : main.cpp
+main.o : main.cpp graph.h
 	$(CXX) $(CXXFLAGS) main.cpp
 
 graph.o : graph.cpp graph.h
 	$(CXX) $(CXXFLAGS) graph.cpp
-
-# PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
-# 	$(CXX) $(CXXFLAGS) cs225/PNG.cpp
-
-# HSLAPixel.o : cs225/HSLAPixel.cpp cs225/HSLAPixel.h
-# 	$(CXX) $(CXXFLAGS) cs225/HSLAPixel.cpp
-
-# lodepng.o : cs225/lodepng/lodepng.cpp cs225/lodepng/lodepng.h
-# 	$(CXX) $(CXXFLAGS) cs225/lodepng/lodepng.cpp
-
-
-# test: output_msg catchmain.o tests-part1.o tests-part2.o PNG.o HSLAPixel.o lodepng.o lab_intro.o
-# 	$(LD) catchmain.o tests-part1.o tests-part2.o PNG.o HSLAPixel.o lodepng.o lab_intro.o $(LDFLAGS) -o test
-
-# catchmain.o : cs225/catch/catchmain.cpp cs225/catch/catch.hpp
-# 	$(CXX) $(CXXFLAGS) cs225/catch/catchmain.cpp
-
-# tests-part1.o : tests/tests-part1.cpp cs225/catch/catch.hpp lab_intro.cpp lab_intro.h
-# 	$(CXX) $(CXXFLAGS) tests/tests-part1.cpp
-
-# tests-part2.o : tests/tests-part2.cpp cs225/catch/catch.hpp lab_intro.cpp lab_intro.h
-# 	$(CXX) $(CXXFLAGS) tests/tests-part2.cpp
-
 
 clean :
 	-rm -f *.o $(EXENAME) test

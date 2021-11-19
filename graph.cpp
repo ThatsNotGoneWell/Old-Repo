@@ -58,7 +58,7 @@ void Graph::read_airports(const std::string& airports_file_name) {
 }
 
 void Graph::read_routes(const std::string& routes_file_name) {
-  std::ifstream route_file("data/routes.dat.txt");
+  std::ifstream route_file(routes_file_name);
   std::string line;
 
   // Open file and iterate through each line to fill airport hash table
@@ -93,8 +93,8 @@ void Graph::read_routes(const std::string& routes_file_name) {
     }
   }
 
-  Airport champaign = vertices.at("CMI");
-  Airport jfk = vertices.at("JFK");
+  Airport champaign = kVertices_.at("CMI");
+  Airport jfk = kVertices_.at("JFK");
   std::cout << champaign.get_longitude() << " " << champaign.get_latitude() << std::endl;
   std::cout << jfk.get_longitude() << " " << jfk.get_latitude() << std::endl;
 
@@ -109,10 +109,7 @@ double Graph::CalculateAirportDistance(const Airport& origin, const Airport& des
     double lat1 = ToRad(origin.get_latitude());
     double lat2 = ToRad(destination.get_latitude());
 
-    double delta_lat = ToRad(destination.get_latitude() - origin.get_latitude());
     double delta_long = ToRad(destination.get_longitude() - origin.get_longitude());
-
-    // double dist = std::sin(lat1) * std::sin(lat2) + std::cos(lat1) * std::cos(lat2) * std::cos(long1 - long2);
 
     double a = (std::sin((lat2 - lat1) / 2) * std::sin((lat2 - lat1) / 2)) + 
                (std::cos(lat1) * std::cos(lat2)) +

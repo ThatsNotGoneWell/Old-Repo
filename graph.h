@@ -9,7 +9,7 @@
 class Graph {
 
 public:
-  explicit Graph(const std::string& airports_file_name, const std::string& routes_file_name);
+  Graph(const std::string& airports_file_name, const std::string& routes_file_name);
 
   const Airport& get_airport(const std::string& airport_name) const;
 
