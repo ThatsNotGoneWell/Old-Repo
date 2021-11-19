@@ -21,3 +21,12 @@ Next steps: README file; Data Acquisition
 Weekly Log 
 Date: 11/12/2021
 Progress: On Wednesday, we have received an email saying our proposal is rejected. Upon receving the email, we have discussed ways to resolve this issue using Wechat. Most issues are fixed on Wednesday, but we still need some clarifications, so we contacted our mentor. Unfortunately, we still haven't received any furthur response from our mentor through either Discord or email. Still, since the issues doesn't affect our leading questions or timeline, we carried on. A README file was made and we started Data Acuqisition as well as brainstorming a way to process the data and setting up a structure for our algorithm. We also set up a CodeShare file for us to work on the same piece of code at the same time. Overall, we are right on the timeline as long as the proposal can be approved after feedback from the tutor is received.
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+Weekly Log 
+Date: 11/18/2021
+Progress: Over the past week, we have implemented the graph algorithms, which takes the raw data and put it in a hash table. We also implemented a try-catch statement which is used to filter out the broken data, and as we expected, very few data entries were filered out. We didn't have much clue on the make file, and had some trouble making it up, but we have eventually fixed it witht he help of the office hour. Now our code can compile and branches are made so that we can work separately.  
