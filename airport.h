@@ -15,9 +15,9 @@ public:
 
   inline const std::string& get_city() const { return kCity_; }
 
-  inline const double get_latitude() const { return kLatitude_; }
+  inline double get_latitude() const { return kLatitude_; }
 
-  inline const double get_longitude() const { return kLongitude_; }
+  inline double get_longitude() const { return kLongitude_; }
 
   friend std::ostream& operator<<(std::ostream& os, const Airport& airport) { 
     return os << airport.kID_ << ", " << airport.kName_ << ", " << airport.kCity_; 

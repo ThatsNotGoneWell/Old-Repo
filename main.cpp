@@ -28,7 +28,9 @@ int main() {
     // std::ifstream airport_file("data/airports.dat.txt");
     // std::string line;
     // std::unordered_map<std::string, Airport> vertices;
-    // std::cout << "HELLO WORLD!!" << std::endl;
+    // Graph graph();
+
+    std::cout << "HELLO WORLD!!!!" << std::endl;
     return 1;
 
     // // Open file and iterate through each line to fill airport hash table

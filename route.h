@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Airport.h"
+#include "airport.h"
 
 struct Route {
 public:
@@ -11,6 +11,8 @@ public:
   inline const Airport& get_origin() const { return kOrigin_; }
 
   inline const Airport& get_destination() const { return kDestination_; }
+
+  inline double get_distance() const { return kDistance_; }
 
   friend std::ostream& operator<<(std::ostream& os, const Route& route) { 
     return os << "Origin: " << route.kOrigin_ << '\n' << "Destination: " << route.kDestination_; 
