@@ -1,5 +1,4 @@
 #include <fstream>
-#include <vector>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
@@ -13,11 +12,33 @@ Graph::Graph(const std::string& airports_file_name, const std::string& routes_fi
   read_routes(routes_file_name);
 }
 
+std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
+  std::vector<std::vector<int>> adjacency_list(kVertices_.size(), std::vector<int>(kVertices_.size()));
+
+  // for (size_t i = 0; i < kVertices_.size(); i++) {
+  //   std::vector
+  //   for (size_t j = 0; j < kVertices_.size(); j++) {
+
+  //   }
+  //   adjacency_list.push_back(std::vector<bool>{});
+  // }
+
+  for(auto it = kEdges_.begin(); it != kEdges_.end(); ++it) {
+    Airport origin = it->get_origin();
+    Airport destination = it->get_destination();
+
+    adjacency_list[origin.get_index()][destination.get_index()] = 1;
+  }
+
+  return adjacency_list;
+}
+
 void Graph::read_airports(const std::string& airports_file_name) {
   std::ifstream airport_file(airports_file_name);
   std::string line;
 
   // Open file and iterate through each line to fill airport hash table
+  size_t vertex_index = 0;
   if (airport_file.is_open()) {
     while (getline(airport_file, line)) {
 
@@ -46,8 +67,9 @@ void Graph::read_airports(const std::string& airports_file_name) {
         double longitude = std::stod(vect[7]);
         double latitude = std::stod(vect[6]);
 
-        Airport new_vertex(id, name, city, longitude, latitude);
+        Airport new_vertex(id, name, city, longitude, latitude, vertex_index);
         kVertices_.emplace(id, new_vertex);
+        vertex_index++;
       } catch (const std::invalid_argument& error) {
           continue;
       }
@@ -90,13 +112,6 @@ void Graph::read_routes(const std::string& routes_file_name) {
       }
     }
   }
-
-  Airport champaign = kVertices_.at("CMI");
-  Airport jfk = kVertices_.at("JFK");
-  std::cout << champaign.get_longitude() << " " << champaign.get_latitude() << std::endl;
-  std::cout << jfk.get_longitude() << " " << jfk.get_latitude() << std::endl;
-
-  std::cout << CalculateAirportDistance(champaign, jfk) << std::endl;
 }
 
 double Graph::ToRad(double degree) const {

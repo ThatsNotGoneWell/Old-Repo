@@ -6,8 +6,8 @@
 struct Airport {
 
 public:
-  Airport(const std::string& id,  const std::string& name,  const std::string& city, double longitude, double latitude) 
-          : kID_(id), kName_(name), kCity_(city), kLongitude_(longitude), kLatitude_(latitude) {};
+  Airport(const std::string& id,  const std::string& name,  const std::string& city, double longitude, double latitude, size_t index) 
+          : kID_(id), kName_(name), kCity_(city), kLongitude_(longitude), kLatitude_(latitude), kIndex_(index) {};
 
   /**
    * getter functions 
@@ -21,6 +21,8 @@ public:
   inline double get_latitude() const { return kLatitude_; }
 
   inline double get_longitude() const { return kLongitude_; }
+
+  inline double get_index() const { return kIndex_; }
 
   /**
    * Puts key information of airport into outstream object
@@ -37,10 +39,12 @@ private:
    * @kCity_ : name of city airport is in
    * @kName_ : name of airport
    * @kID_ : 3-letter IATA code
+   * @kIndex_ : index of vertice in graph
    */
   const std::string kID_;
   const std::string kName_;
   const std::string kCity_;
   const double kLongitude_;
   const double kLatitude_;
+  const size_t kIndex_;
 };

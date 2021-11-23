@@ -13,5 +13,6 @@ public:
   std::vector<Airport> FindLongestCycle() const;
 
 private:  
-  Graph kAirportRoutes_;
+  const Graph kAirportRoutes_;
+  const std::vector<std::vector<int>> kAdjacencyList_;
 };

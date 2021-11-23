@@ -5,7 +5,6 @@
 
 int main() {
     DonaldsonAlgo algo("data/airports.dat.txt", "data/routes.dat.txt");
-
     std::vector<Airport> longest_cycle = algo.FindLongestCycle();
 
     for (const auto& airport : longest_cycle) {
