@@ -1,19 +1,22 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <stdexcept>
-#include <unordered_map>
-#include <list>
-#include <cmath>
+
 
 #include "graph.h"
-
+#include "airport.h"
+#include "route.h"
+#include "node.h" 
 Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) {
   read_airports(airports_file_name);
-  read_routes(routes_file_name);
+  read_routes(routes_file_name); 
+  
+  for ( auto  i = kVertices_ . begin ( ) ; i !=   kVertices_. end ( ) ; i++  ){ 
+    node* temp = new node ( ) ;
+    temp -> set_current ( i -> first  ) ;
+    node_holder .push_back ( temp ) ; 
+  }
+   create_nodes (  ) ;
 }
+
+
 
 void Graph::read_airports(const std::string& airports_file_name) {
   std::ifstream airport_file(airports_file_name);
@@ -118,3 +121,55 @@ double Graph::CalculateAirportDistance(const Airport& origin, const Airport& des
 
     return 6371 * c;
 }
+
+const   Airport& Graph :: get_airport(const std::string& airport_name) const { 
+  // i : holds the address of the airport 
+  // returns the address of the airport name loacations 
+  // else : returns  end  ;
+  auto i = kVertices_ . begin  ( ) ;  
+  for (  i  =   kVertices_  .begin ( ) ; i != kVertices_  .end ( ) ; i ++ ) {
+    if ( i -> first  == airport_name ) {
+    //    Airport temp = Airport ( i .get_id ( ) , i .get_name ( ) , i .get_city ( ) , i . get_latitude ( ) ,i .get_altitude ( )  ) ; 
+      break ;
+    }
+  }
+  return i -> second ;
+  
+}
+const std:: vector <Route >  Graph :: get_route( const std :: string & rout_origin ) const {
+      std :: vector  <Route > temp ;
+      auto i = kEdges_ .begin ( ) ; 
+      for ( i = kEdges_ .begin ( ) ; i != kEdges_ . end ( ) ; i ++ ){
+        if ( i  -> get_origin ( ) . get_id ( ) == rout_origin ) {
+          temp . push_back ( *i ) ;
+        }  
+        
+      }
+      return temp   ; 
+} 
+
+const node * Graph :: create_nodes  (   )  {
+  for ( size_t i = 0 ; i < node_holder .size ( )  ; i++ ) { 
+  
+    std :: string temp =   node_holder [ i ] -> get_current ( )  ;
+     for ( size_t j = 0 ; j < get_route ( temp  ) . size ( ) ; j++   ){ 
+      std :: string destin = get_route ( temp ) [ j ] . get_destination ( ) . get_id ( ) ;
+       
+       for ( size_t a = 0 ; a < node_holder .size ( )  ; a++  ) {
+         if ( node_holder [a ] -> get_current ( ) == destin  ) {
+           node_holder [ i ] -> get_next_nodes ( ) . push_back ( node_holder [ a ] ) ;
+           Airport a_ = get_airport (node_holder[ a ] -> get_current ( )  );
+           Airport b_ = get_airport (node_holder [ i ] -> get_current ( ) );
+            node_holder [i ] ->get_distance( )  . push_back (  CalculateAirportDistance ( a_ , b_ ) ) ;
+            std :: cout << CalculateAirportDistance ( a_ , b_ ) << std :: endl   ; 
+         }
+         
+           
+        
+       }
+      }
+   } 
+}
+
+
+
