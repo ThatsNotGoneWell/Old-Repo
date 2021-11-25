@@ -23,6 +23,8 @@ public:
 
   inline const Route& get_route() const { return kEdges_.front(); }
 
+  inline const std::vector<Airport>& get_airports() const { return kAirports_; }
+
 private:
   
   /**
@@ -39,7 +41,9 @@ private:
   /**
    * @kVertices_ : maps each airport 3-letter IATA code
    * @kEdges_ : linked list of each edge in graph
+   * @kAirports_ : list of each airport
    */
   std::unordered_map<std::string, Airport> kVertices_;
   std::list<Route> kEdges_;
+  std::vector<Airport> kAirports_;
 };

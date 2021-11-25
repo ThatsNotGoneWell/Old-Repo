@@ -1,5 +1,5 @@
 EXENAME = main
-OBJS = main.o graph.o donaldson_algo.o
+OBJS = main.o graph.o donaldson_algo.o strong_connected_components.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -c -g -O0 -Wall -Wextra -pedantic
@@ -32,14 +32,17 @@ output_msg: ; $(CLANG_VERSION_MSG)
 $(EXENAME) : output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
-main.o : main.cpp graph.h donaldson_algo.h
+main.o : main.cpp graph.h JohnsonAlgo/donaldson_algo.h JohnsonAlgo/strong_connected_components.h
 	$(CXX) $(CXXFLAGS) main.cpp
 
 graph.o : graph.cpp graph.h
 	$(CXX) $(CXXFLAGS) graph.cpp
 
-donaldson_algo.o : donaldson_algo.cpp donaldson_algo.h
-	$(CXX) $(CXXFLAGS) donaldson_algo.cpp
+donaldson_algo.o : JohnsonAlgo/donaldson_algo.cpp JohnsonAlgo/donaldson_algo.h
+	$(CXX) $(CXXFLAGS) JohnsonAlgo/donaldson_algo.cpp
+
+strong_connected_components.o : JohnsonAlgo/strong_connected_components.cpp JohnsonAlgo/strong_connected_components.h
+	$(CXX) $(CXXFLAGS) JohnsonAlgo/strong_connected_components.cpp
 
 clean :
 	-rm -f *.o $(EXENAME) test
