@@ -15,6 +15,9 @@ public:
 
 private:  
 
+  bool IsAdjacencyListNull(const std::vector<std::vector<int>>& adjacency_list);
+  bool IsSCCNull(const std::vector<std::vector<int>>& scc, size_t j);
+
   std::vector<std::vector<Airport>> GetAllCycles();
 
   bool FindCycles(int v, int s, std::vector<std::vector<int>> adjacency_list);

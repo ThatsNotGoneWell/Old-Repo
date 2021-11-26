@@ -9,19 +9,24 @@ class StrongConnectedComponents {
 
 public:
 
-StrongConnectedComponents(const std::vector<std::vector<int>>& adjacency_list);
+  StrongConnectedComponents(const std::vector<std::vector<int>>& adjacency_list);
 
-SCCResult GetAdjacencyList(int airport_index);
+  SCCResult GetAdjacencyList(int airport_index);
 
-void MakeAdjacencyListSubgraph(int airport_index);
+  void MakeAdjacencyListSubgraph(int airport_index);
 
-std::vector<int>* GetLowestIdComponent();
+  std::vector<int> GetLowestIdComponent();
 
-std::vector<std::vector<int>> GetAdjList(const std::vector<int>* nodes);
+  std::vector<std::vector<int>> GetAdjList(const std::vector<int> nodes);
 
-void GetStrongConnectedComponents(int root);
+  void GetStrongConnectedComponents(int root);
 
 private:
+
+  bool IsAdjacencyListNull(const std::vector<std::vector<int>>& adjacency_list);
+  bool IsNodesNull(const std::vector<int>& nodes);
+
+
   std::vector<std::vector<int>> adjacency_list_original_;
   std::vector<std::vector<int>> adjacency_list_;
   std::vector<bool> visited_;

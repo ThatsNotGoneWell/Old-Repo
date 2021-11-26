@@ -8,20 +8,25 @@ DonaldsonAlgo::DonaldsonAlgo(const std::string& airports_file_name, const std::s
                              kAirportRoutes_(airports_file_name,  routes_file_name),
                              kAdjacencyList_(kAirportRoutes_.MakeAdjacencyList()) { 
 
-  blocked_ = std::vector<bool>(kAdjacencyList_.size());
-  B_ = std::vector<std::vector<int>>(kAdjacencyList_.size(), std::vector<int>());
-  // stack_ = std::stack<Airport>();
-  // cycles_ = std::vector<std::vector<Airport>>;
+  blocked_ = std::vector<bool>(kAdjacencyList_.size(), false);
+  B_ = std::vector<std::vector<int>>(kAdjacencyList_.size());
 }
 
 std::vector<Airport> DonaldsonAlgo::GetLongestCycle() {
-  std::vector<Airport> longest_cycle = GetAllCycles()[0];
+  std::vector<std::vector<Airport>> longest_cycle = GetAllCycles();
 
-  for (const auto& airport : longest_cycle) {
-    std::cout << airport << std::endl;
+  // for (const auto& airport : longest_cycle) {
+  //   std::cout << airport << std::endl;
+  // }
+
+  for (const auto& cycle : longest_cycle) {
+    for (const auto& airport : cycle) {
+      std::cout << airport << std::endl;
+    }
+    std::cout << std::endl;
   }
   
-  return longest_cycle;
+  return longest_cycle[0];
 }
 
 std::vector<std::vector<Airport>> DonaldsonAlgo::GetAllCycles() {
@@ -29,14 +34,13 @@ std::vector<std::vector<Airport>> DonaldsonAlgo::GetAllCycles() {
   int s = 0;
 
   while (true) {
-    std::cout << __LINE__ << std::endl;
     SCCResult scc_result = sccs.GetAdjacencyList(s);
-    std::cout << __LINE__ << std::endl;
-    if (scc_result.GetLowestAirportIndex() != -1 && scc_result.GetLowestAirportIndex() != -1) { // Removed Null Check    
+
+    if (scc_result.GetLowestAirportIndex() != -1 && !IsAdjacencyListNull(scc_result.GetAdjacencyList())) { // Removed Null Check    
       std::vector<std::vector<int>> scc = scc_result.GetAdjacencyList();
       s = scc_result.GetLowestAirportIndex();
       for (size_t j = 0; j < scc.size(); j++) {
-        if (scc[j].size() > 0 && scc[0][0] != -1) { // Removed Null Check
+        if (scc[j].size() > 0 && scc[j][0] != -1) { // Removed Null Check
           blocked_[j] = false;
           B_[j] = std::vector<int>();
         }
@@ -101,4 +105,12 @@ void DonaldsonAlgo::unblock(int airport_index) {
       unblock(w);
     }
   }
+}
+
+bool DonaldsonAlgo::IsAdjacencyListNull(const std::vector<std::vector<int>>& adjacency_list) {
+  return adjacency_list.size() == 2 && adjacency_list[0][0] == -1;
+}
+
+bool DonaldsonAlgo::IsSCCNull(const std::vector<std::vector<int>>& scc, size_t j) {
+  return scc[j].size() > 0 && scc[j][0] != -1;
 }

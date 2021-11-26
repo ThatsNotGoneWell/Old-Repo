@@ -4,33 +4,39 @@
 
 StrongConnectedComponents::StrongConnectedComponents(const std::vector<std::vector<int>>& adjacency_list) :
                                                      adjacency_list_original_(adjacency_list) { 
-  visited_ = std::vector<bool>(adjacency_list.size());
-  low_link_ = std::vector<int>(adjacency_list.size());
-  number_ = std::vector<int>(adjacency_list.size());
+  visited_ = std::vector<bool>(adjacency_list_original_.size(), false);
+  low_link_ = std::vector<int>(adjacency_list_original_.size(), 0);
+  number_ = std::vector<int>(adjacency_list_original_.size(), 0);
   // current_scc_ = std::vector<std::vector<int>>(adjacency_list.size(), std::vector<int>());
-  stack_ = std::vector<int>();
+  // stack_ = std::vector<int>();
   scc_counter_ = 0;
 }
 
 SCCResult StrongConnectedComponents::GetAdjacencyList(int airport_index) {
+  visited_ = std::vector<bool>(adjacency_list_original_.size(), false);
+  low_link_ = std::vector<int>(adjacency_list_original_.size(), 0);
+  number_ = std::vector<int>(adjacency_list_original_.size(), 0);
+  stack_.clear();
+  current_scc_.clear();
+
   MakeAdjacencyListSubgraph(airport_index);
 
   for (size_t i = airport_index; i < adjacency_list_original_.size(); i++) {
     if (!visited_[i]) {
       GetStrongConnectedComponents(i);
-      std::vector<int>* nodes = GetLowestIdComponent();
-      for (const auto& elem : *nodes) {
-        std::cout << elem << "     ";
-      }
-      std::cout << std::endl;
+      std::vector<int> nodes = GetLowestIdComponent();
+      // for (const auto& elem : nodes) {
+      //   std::cout << elem << "     ";
+      // }
+      // std::cout << std::endl;
 
-      if (nodes != nullptr &&
-         !std::count(nodes->begin(), nodes->end(), airport_index) &&
-         !std::count(nodes->begin(), nodes->end(), airport_index + 1)) {
+      if (!IsNodesNull(nodes) && // NULL CHECK
+         !std::count(nodes.begin(), nodes.end(), airport_index) &&
+         !std::count(nodes.begin(), nodes.end(), airport_index + 1)) {
         return GetAdjacencyList(airport_index + 1);
       } else {
         std::vector<std::vector<int>> temp_adjacency_list = GetAdjList(nodes);
-        if (temp_adjacency_list[0][0] == -1) {
+        if (!IsAdjacencyListNull(temp_adjacency_list)) { // NULL CHECK
           for (size_t j = 0; j < adjacency_list_original_.size(); j++) {
             if (temp_adjacency_list[j].size() > 0) {
               return SCCResult(temp_adjacency_list, j);
@@ -62,28 +68,28 @@ void StrongConnectedComponents::MakeAdjacencyListSubgraph(int node) {
     }
   }
 
-  size_t index = 0;
-  std::cout << "Making Subgraph for node: " << node << std::endl;
-  for (const auto& row : adjacency_list_) {
-    std::cout << index << "  ";
-    for (const auto& elem : row) {
-      std::cout << elem << " ";
-    }
-    std::cout << std::endl;
-    index++;
-  }
+  // size_t index = 0;
+  // std::cout << "Making Subgraph for node: " << node << std::endl;
+  // for (const auto& row : adjacency_list_) {
+  //   std::cout << index << "  ";
+  //   for (const auto& elem : row) {
+  //     std::cout << elem << " ";
+  //   }
+  //   std::cout << std::endl;
+  //   index++;
+  // }
 }
 
-std::vector<int>* StrongConnectedComponents::GetLowestIdComponent() {
+std::vector<int> StrongConnectedComponents::GetLowestIdComponent() {
   int min = adjacency_list_.size();
-  std::vector<int>* curr_scc = nullptr;
+  std::vector<int> curr_scc{-1};
 
   for (size_t i = 0; i < current_scc_.size(); i++) {
    std::vector<int> scc = current_scc_[i];
     for (size_t j = 0; j < scc.size(); j++) {
       int node = scc[j];
       if (node < min) {
-        curr_scc = &scc; // possible seg fault
+        curr_scc = scc; // possible seg fault
         min = node;
       }
     }
@@ -92,20 +98,20 @@ std::vector<int>* StrongConnectedComponents::GetLowestIdComponent() {
   return curr_scc;
 }
 
-std::vector<std::vector<int>> StrongConnectedComponents::GetAdjList(const std::vector<int>* nodes) {
+std::vector<std::vector<int>> StrongConnectedComponents::GetAdjList(const std::vector<int> nodes) {
   std::vector<std::vector<int>> lowest_id_adjacency_list {{-1, -1}, {-1, -1}};
 
-  if (nodes != nullptr) {
+  if (nodes.size() != 1 && nodes[0] != -1) { // NULL CHECK
     lowest_id_adjacency_list = std::vector<std::vector<int>>(adjacency_list_.size(), std::vector<int>());
     // for (size_t i = 0; i < lowest_id_adjacency_list.size(); i++) {
     //   lowest_id_adjacency_list[i] = std::vector<int>();
     // }
 
-    for (size_t i = 0; i < nodes->size(); i++) {
-      int node = (*nodes)[i];
+    for (size_t i = 0; i < nodes.size(); i++) {
+      int node = nodes[i];
       for (size_t j = 0; j < adjacency_list_[node].size(); j++) {
         int succ = adjacency_list_[node][j];
-        if (std::count(nodes->begin(), nodes->end(), succ)) {
+        if (std::count(nodes.begin(), nodes.end(), succ)) {
           lowest_id_adjacency_list[node].push_back(succ);
         }
       }
@@ -150,6 +156,13 @@ void StrongConnectedComponents::GetStrongConnectedComponents(int root) {
     }
   }
 
-  std::cout << "SCC Count: " << scc_counter_ << "  Root: " << root << "  size: " << current_scc_.size() << std::endl;
+  // std::cout << "SCC Count: " << scc_counter_ << "  Root: " << root << "  size: " << current_scc_.size() << std::endl;
 }
 
+bool StrongConnectedComponents::IsAdjacencyListNull(const std::vector<std::vector<int>>& adjacency_list) {
+  return adjacency_list.size() == 2 && adjacency_list[0][0] == -1;
+}
+
+bool StrongConnectedComponents::IsNodesNull(const std::vector<int>& nodes) {
+  return nodes.size() == 1 && nodes[0] == -1;
+}
