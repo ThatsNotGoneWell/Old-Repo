@@ -8,12 +8,34 @@ Graph::Graph(const std::string& airports_file_name, const std::string& routes_fi
   read_airports(airports_file_name);
   read_routes(routes_file_name); 
   
-  for ( auto  i = kVertices_ . begin ( ) ; i !=   kVertices_. end ( ) ; i++  ){ 
-    node* temp = new node ( ) ;
-    temp -> set_current ( i -> first  ) ;
+  for ( auto  c = kVertices_ . begin ( ) ; c !=   kVertices_. end ( ) ; c++  ){ 
+    node* temp = new node ( ) ; 
+    temp -> set_current ( c -> first  ) ;
     node_holder .push_back ( temp ) ; 
   }
-   create_nodes (  ) ;
+  for ( size_t i = 0 ; i < node_holder .size ( )  ; i++ ) { 
+    
+    std :: string temp =   node_holder [ i ] -> get_current ( )  ;
+    // std :: cout << 1 ;
+    for ( size_t j = 0 ; j < get_route ( temp  ) . size ( ) ; j++   ){ 
+      // std :: cout << 1 ; 
+      std :: string destin = get_route ( temp ) [ j ] . get_destination ( ) . get_id ( ) ;
+      // std :: cout << 1 ;
+      for ( size_t a = 0 ; a < node_holder .size ( )  ; a++  ) {
+        if ( node_holder [a ] -> get_current ( ) == destin  ) {
+          node_holder [ i ] -> set_next_nodes ( node_holder [ a ] ) ;
+          Airport a_ = get_airport (node_holder[ a ] -> get_current ( )  );
+          Airport b_ = get_airport (node_holder [ i ] -> get_current ( ) );
+          node_holder [i ] -> set_dis  (  CalculateAirportDistance ( a_ , b_ ) ) ;
+         //  std :: cout << 1 ; 
+         //  std :: cout << CalculateAirportDistance ( a_ , b_ ) << std :: endl   ; 
+        }
+        
+        
+        
+      }
+    }
+  } 
 }
 
 
@@ -115,7 +137,7 @@ double Graph::CalculateAirportDistance(const Airport& origin, const Airport& des
     double delta_long = ToRad(destination.get_longitude() - origin.get_longitude());
 
     double a = (std::sin((lat2 - lat1) / 2) * std::sin((lat2 - lat1) / 2)) + 
-               (std::cos(lat1) * std::cos(lat2)) +
+               (std::cos(lat1) * std::cos(lat2)) *
                (std::sin((delta_long) / 2) * std::sin((delta_long) / 2));
     double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));
 
@@ -148,28 +170,66 @@ const std:: vector <Route >  Graph :: get_route( const std :: string & rout_orig
       return temp   ; 
 } 
 
-const node * Graph :: create_nodes  (   )  {
-  for ( size_t i = 0 ; i < node_holder .size ( )  ; i++ ) { 
-  
-    std :: string temp =   node_holder [ i ] -> get_current ( )  ;
-     for ( size_t j = 0 ; j < get_route ( temp  ) . size ( ) ; j++   ){ 
-      std :: string destin = get_route ( temp ) [ j ] . get_destination ( ) . get_id ( ) ;
-       
-       for ( size_t a = 0 ; a < node_holder .size ( )  ; a++  ) {
-         if ( node_holder [a ] -> get_current ( ) == destin  ) {
-           node_holder [ i ] -> get_next_nodes ( ) . push_back ( node_holder [ a ] ) ;
-           Airport a_ = get_airport (node_holder[ a ] -> get_current ( )  );
-           Airport b_ = get_airport (node_holder [ i ] -> get_current ( ) );
-            node_holder [i ] ->get_distance( )  . push_back (  CalculateAirportDistance ( a_ , b_ ) ) ;
-            std :: cout << CalculateAirportDistance ( a_ , b_ ) << std :: endl   ; 
-         }
-         
-           
-        
-       }
-      }
-   } 
+
+
+
+size_t  Graph  :: find_nodes ( std :: vector < node * > graph_nodes , std :: string origin ) {
+  for ( size_t e= 0 ;  e < graph_nodes. size ( ) ; e++ ) {
+    if ( graph_nodes [ e ] -> get_current ( )  == origin ) {
+      return e ;
+    }
+  }
 }
+// assumption  graph consists on the nodes that contains its origin name distance as vector and next destin as vector and visted as bool vector  
+// set origin distance as the first distance of itself 
+void Graph :: dijkstr_distance ( std :: vector < node *  > graph_nodes , std :: string origin ) {
+  size_t   origin_node_index =  find_nodes ( graph_nodes , origin ) ; 
+  
+  
+  std :: vector < double  > distance_temp  ;
+  for ( size_t i = 0 ; i < graph_nodes  . size ( ) ; i ++ ) {
+    
+    shortest_length . push_back ( 1000000000 ) ;
+  }
+  shortest_length  [ origin_node_index ] = 0 ;
+  long temp =  shortest_length [ 0 ]; 
+  
+  size_t e ;
+  size_t temp_e ;
+  node *  next_destination ;
+  node*  current = graph_nodes [origin_node_index ] ; 
+  do { 
+    for (  e = 0 ; e < shortest_length . size ( ) ; e++ ) {
+      if ( temp > shortest_length [ e ] ) {
+        if ( graph_nodes [ e]   -> get_visited ( )  == false ) { 
+          
+          temp = shortest_length [ e ] ;
+          temp_e = e ;
+          
+          
+        }
+      } 
+    }
+    next_destination = graph_nodes [ temp_e ] ;
+    
+    for ( e= 0 ; e < next_destination -> get_distance ( ) . size ( )   ; e++  ) {
+      if ( next_destination -> get_next_nodes ( ) [ e ] -> get_visited ( ) == false ) {
+        //   temp =  dijkstr_distance (  graph_nodes ,  origin  ,  next_destination -> destination  [e ] ) ;
+        if ( shortest_length [ temp_e ] + next_destination  -> get_distance ( ) [e ] <  shortest_length[ e ]   ){
+          shortest_length [e ]  = shortest_length [ temp_e] + next_destination -> get_distance ( ) [ e];
+        }
+      }
+    }
+    graph_nodes [ temp_e ] -> set_visited ( true  )  ;
+  }while ( visited_check ( graph_nodes  )) ;
 
-
+}
+bool Graph :: visited_check ( std :: vector < node *  > graph_nodes  ) {
+  for ( size_t i =0 ; i < graph_nodes . size( ) ; i++ ){ 
+    if ( graph_nodes [ i] -> get_visited ( ) == false ){
+      return false ; 
+    }
+  }
+  return true ;
+}
 

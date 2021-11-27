@@ -13,6 +13,7 @@
 
 #include "node.h" 
 
+
 #include "airport.h"
 #include "route.h"
 
@@ -25,9 +26,18 @@ public:
 
   const std :: vector  <Route >  get_route(const std ::  string& rout_origin ) const;
   
-  const node*  create_nodes (  ) ; 
+  void  create_nodes (  ) ; 
   
   std :: vector < node * > node_holder ;
+  
+  void  dijkstr_distance ( std:: vector < node * > node_holder    , std :: string origin   ) ;
+  
+  size_t  find_nodes ( std :: vector < node * > graph_nodes , std :: string origin  ) ;
+  
+  bool visited_check ( std :: vector < node * > graph_nodes  ) ;
+  
+  std :: vector < double > shortest_length ;
+  
 private:
 
   void read_airports(const std::string& airports_file_name);
@@ -40,5 +50,9 @@ private:
 
   std::unordered_map<std::string, Airport> kVertices_;
   std::list<Route> kEdges_; 
+  
+  std :: vector < node *  > nodes_passed  ;
+  
+  // std :: vector < double > shortest_length ;
   
 };
