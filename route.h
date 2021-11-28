@@ -25,6 +25,12 @@ public:
     return os << "Origin: " << route.kOrigin_ << '\n' << "Destination: " << route.kDestination_; 
   }
 
+  friend bool operator==(const Route& lhs, const Route& rhs) { 
+    return (lhs.kOrigin_.get_id() == rhs.kOrigin_.get_id()) && 
+           (lhs.kDestination_.get_id() == rhs.kDestination_.get_id()); 
+  }
+
+
 private:
   /**
    * @kOrigin_ : flight's origin airport

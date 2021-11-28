@@ -13,20 +13,27 @@ DonaldsonAlgo::DonaldsonAlgo(const std::string& airports_file_name, const std::s
 }
 
 std::vector<Airport> DonaldsonAlgo::GetLongestCycle() {
-  std::vector<std::vector<Airport>> longest_cycle = GetAllCycles();
+  std::vector<std::vector<Airport>> all_cycles = GetAllCycles();
 
   // for (const auto& airport : longest_cycle) {
   //   std::cout << airport << std::endl;
   // }
-
-  for (const auto& cycle : longest_cycle) {
-    for (const auto& airport : cycle) {
-      std::cout << airport << std::endl;
+  size_t max_size = 0;
+  size_t max_size_index = 0;
+  for (size_t index = 0; index < all_cycles.size(); index ++) {
+    if (all_cycles[index].size() > max_size) {
+      max_size = all_cycles[index].size();
+      max_size_index = index;
     }
-    std::cout << std::endl;
   }
+  // for (const auto& cycle : longest_cycle) {
+  //   for (const auto& airport : cycle) {
+  //     std::cout << airport << std::endl;
+  //   }
+  //   std::cout << std::endl;
+  // }
   
-  return longest_cycle[0];
+  return all_cycles[max_size_index];
 }
 
 std::vector<std::vector<Airport>> DonaldsonAlgo::GetAllCycles() {
@@ -73,18 +80,20 @@ bool DonaldsonAlgo::FindCycles(int v, int s, std::vector<std::vector<int>> adj_l
       cycles_.push_back(cycle);
       f = true;
     } else if (!blocked_[w]) {
-      if (FindCycles(w, s, adj_list)) {
+      bool temp = FindCycles(w, s, adj_list);
+      if (temp) {
         f = true;
       }
     }
   }
+
+
 
   if (f) {
     unblock(v);
   } else {
     for (size_t i = 0; i < adj_list[v].size(); i++) {
       int w = adj_list[v][i];
-      w++;
       if (!std::count(B_[w].begin(), B_[w].end(), v)) {
         B_[w].push_back(v);
       }
@@ -92,6 +101,7 @@ bool DonaldsonAlgo::FindCycles(int v, int s, std::vector<std::vector<int>> adj_l
   }
 
   stack_.erase(std::remove(stack_.begin(), stack_.end(), v), stack_.end());
+
   return f;
 }
 

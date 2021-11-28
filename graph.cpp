@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <list>
 #include <cmath>
+#include <algorithm>
 
 #include "graph.h"
 
@@ -18,10 +19,15 @@ std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
   for(auto it = kEdges_.begin(); it != kEdges_.end(); ++it) {
     Airport origin = it->get_origin();
     Airport destination = it->get_destination();
-
     adjacency_list[origin.get_index()].push_back(destination.get_index());
   }
-
+  for (size_t i = 0; i < adjacency_list.size(); i++) {
+    std::cout << "Row " << i << ": ";
+    for (size_t j = 0; j < adjacency_list[i].size(); j++){
+      std::cout << adjacency_list[i][j] << "  ";
+    }
+    std::cout << std::endl;
+  } 
   return adjacency_list;
 }
 
@@ -75,7 +81,9 @@ void Graph::read_airports(const std::string& airports_file_name) {
   size_t vertex_index = 0;
   if (airport_file.is_open()) {
     while (getline(airport_file, line)) {
-
+      if (kVertices_.size() > 55) {
+        break;
+      }
       // Convert line to stringstream object and grab each comma separated value
       std::stringstream ss(line);
       std::vector<std::string> vect;
@@ -102,7 +110,7 @@ void Graph::read_airports(const std::string& airports_file_name) {
         double latitude = std::stod(vect[6]);
 
         std::string country = vect[3].substr(1, vect[3].size() - 2);
-        if (country != "Canada") {
+        if (country != "United States") {
           continue;
         }
 
@@ -163,18 +171,15 @@ void Graph::read_routes(const std::string& routes_file_name) {
         // Remove first and last characters from string since they are usuaully surrounded by quotes (eg. ""AYGA"")
         std::string origin_id = vect[2];
         std::string destination_id = vect[4];
-
-        // int num_stops = std::stoi(vect[7]);
-        // if (num_stops != 0 || (origin_id == "EWR" && destination_id == "PEK")) {
-        //   std::cout << origin_id << "," << vect[3] << "," << destination_id << "," << vect[5] << std::endl;
-        // }
         
         Airport origin = kVertices_.at(origin_id);
         Airport destination = kVertices_.at(destination_id);
         double distance = CalculateAirportDistance(origin, destination);
 
         Route new_edge(origin, destination, distance);
-        kEdges_.push_back(new_edge);
+        if (std::find(kEdges_.begin(), kEdges_.end(), new_edge) == kEdges_.end()) {
+          kEdges_.push_back(new_edge);
+        }
       } catch (const std::out_of_range& error) {
         continue;
       }
