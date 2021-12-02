@@ -1,4 +1,4 @@
-
+#include <algorithm>
 
 #include "graph.h"
 #include "airport.h"
@@ -30,12 +30,21 @@ Graph::Graph(const std::string& airports_file_name, const std::string& routes_fi
          //  std :: cout << 1 ; 
          //  std :: cout << CalculateAirportDistance ( a_ , b_ ) << std :: endl   ; 
         }
-        
-        
-        
       }
     }
   } 
+  
+  for ( size_t i = 0  ; i < node_holder .size ( ) ; i++ ){
+    
+    for ( size_t  e = 0 ; e <  node_holder [ i ] -> get_next_nodes ( ) .size ( ) ;e++ ) {
+      node_holder [ i ] -> get_next_nodes ( ) [e ] ->set_visited ( false   ) ;
+      node_holder [i ] -> set_visited ( false ) ;
+     //    std:: cout <<  1;  
+    }
+  }
+  for( size_t i = 0  ; i < node_holder . size ( ) ; i++ ){
+    // std :: cout << node_holder [ i ]  -> get_visited ( ) ;
+  }
 }
 
 
@@ -173,63 +182,75 @@ const std:: vector <Route >  Graph :: get_route( const std :: string & rout_orig
 
 
 
-size_t  Graph  :: find_nodes ( std :: vector < node * > graph_nodes , std :: string origin ) {
-  for ( size_t e= 0 ;  e < graph_nodes. size ( ) ; e++ ) {
-    if ( graph_nodes [ e ] -> get_current ( )  == origin ) {
+size_t  Graph  :: find_nodes (  std :: string origin ) {
+  for ( size_t e= 0 ;  e < node_holder. size ( ) ; e++ ) {
+    if ( node_holder [ e ] -> get_current ( )  == origin ) {
       return e ;
     }
   }
+  return -1 ;
 }
 // assumption  graph consists on the nodes that contains its origin name distance as vector and next destin as vector and visted as bool vector  
 // set origin distance as the first distance of itself 
-void Graph :: dijkstr_distance ( std :: vector < node *  > graph_nodes , std :: string origin ) {
-  size_t   origin_node_index =  find_nodes ( graph_nodes , origin ) ; 
+std :: vector < double > Graph :: dijkstr_distance (  std :: string origin ) {
+  size_t   origin_node_index =  find_nodes (  origin ) ; 
+  // std :: cout << origin_node_index ;
+  std :: vector < double > shortest_length ; 
   
-  
-  std :: vector < double  > distance_temp  ;
-  for ( size_t i = 0 ; i < graph_nodes  . size ( ) ; i ++ ) {
+  node_holder [ origin_node_index ]  -> set_visited ( false ) ;
+  for ( size_t i = 0 ; i < node_holder  . size ( ) ; i ++ ) {
     
     shortest_length . push_back ( 1000000000 ) ;
   }
   shortest_length  [ origin_node_index ] = 0 ;
-  long temp =  shortest_length [ 0 ]; 
-  
-  size_t e ;
-  size_t temp_e ;
+  // std:: cout << shortest_length  [ origin_node_index ] ;
   node *  next_destination ;
-  node*  current = graph_nodes [origin_node_index ] ; 
+  size_t temp_e = 0 ;
   do { 
-    for (  e = 0 ; e < shortest_length . size ( ) ; e++ ) {
-      if ( temp > shortest_length [ e ] ) {
-        if ( graph_nodes [ e]   -> get_visited ( )  == false ) { 
-          
-          temp = shortest_length [ e ] ;
-          temp_e = e ;
-          
-          
-        }
-      } 
+    double temp =  100000000000000000; 
+    for ( size_t  i = 0  ; i < shortest_length . size ( ) ; i++ ){
+      
+      if ( node_holder [ i ] -> get_visited ( ) == false  ){ 
+            if( temp > shortest_length [ i ]){
+            temp = shortest_length [ i ];
+            temp_e = i ; 
+            
+          }
+         } 
     }
-    next_destination = graph_nodes [ temp_e ] ;
-    
-    for ( e= 0 ; e < next_destination -> get_distance ( ) . size ( )   ; e++  ) {
+   //  std :: cout << temp_e << " " ;
+    next_destination = node_holder [ temp_e ] ;
+    // std :: cout << 1 ;
+    for ( size_t e= 0 ; e < next_destination -> get_next_nodes ( ) . size ( )   ; e++  ) {
+      
       if ( next_destination -> get_next_nodes ( ) [ e ] -> get_visited ( ) == false ) {
-        //   temp =  dijkstr_distance (  graph_nodes ,  origin  ,  next_destination -> destination  [e ] ) ;
-        if ( shortest_length [ temp_e ] + next_destination  -> get_distance ( ) [e ] <  shortest_length[ e ]   ){
-          shortest_length [e ]  = shortest_length [ temp_e] + next_destination -> get_distance ( ) [ e];
+       
+        //   temp =  dijkstr_distance (  node_holder ,  origin  ,  next_destination -> destination  [e ] ) ;
+        if ( shortest_length [ temp_e ] + next_destination  -> get_distance ( ) [e ] <  shortest_length[ find_nodes (  next_destination -> get_next_nodes ( ) [ e ]  -> get_current ( )) ]   ){
+          shortest_length [find_nodes (  next_destination  -> get_next_nodes  ( ) [e ] -> get_current ( ) ) ]  = shortest_length [ temp_e] + next_destination -> get_distance ( ) [ e]  ;
         }
       }
     }
-    graph_nodes [ temp_e ] -> set_visited ( true  )  ;
-  }while ( visited_check ( graph_nodes  )) ;
+    node_holder [ temp_e ] -> set_visited ( true  )  ;
+  }while ( visited_check (   )) ;
+  return shortest_length ;
 
 }
-bool Graph :: visited_check ( std :: vector < node *  > graph_nodes  ) {
-  for ( size_t i =0 ; i < graph_nodes . size( ) ; i++ ){ 
-    if ( graph_nodes [ i] -> get_visited ( ) == false ){
-      return false ; 
+void Graph :: set_airports (  ){
+  
+  for ( size_t i = 0  ; i < node_holder .size ( ) ; i++ ){
+    for ( size_t  e = 0 ; e <  node_holder [ i ] -> get_next_nodes ( ) .size ( ) ;e++ ) {
+      node_holder [ i ] -> get_next_nodes ( ) [e ] ->set_visited ( false   ) ;
+      
     }
   }
-  return true ;
 }
-
+bool Graph :: visited_check (   ) {
+  for ( size_t i =0 ; i < node_holder . size( ) ; i++ ){ 
+    if ( node_holder [ i] -> get_visited ( ) == false ){
+      return true ; 
+    }
+  }
+  return false ;
+}
+\

@@ -30,13 +30,14 @@ public:
   
   std :: vector < node * > node_holder ;
   
-  void  dijkstr_distance ( std:: vector < node * > node_holder    , std :: string origin   ) ;
+  std :: vector < double >   dijkstr_distance (   std :: string origin   ) ;
   
-  size_t  find_nodes ( std :: vector < node * > graph_nodes , std :: string origin  ) ;
+  size_t  find_nodes (  std :: string origin  ) ;
   
-  bool visited_check ( std :: vector < node * > graph_nodes  ) ;
+  bool visited_check (  ) ;
   
-  std :: vector < double > shortest_length ;
+  
+  void set_airports ( ) ;
   
 private:
 
