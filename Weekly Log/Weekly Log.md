@@ -30,3 +30,15 @@ Progress: On Wednesday, we have received an email saying our proposal is rejecte
 Weekly Log 
 Date: 11/18/2021
 Progress: Over the past week, we have finally got approval from our mentor and implemented the graph algorithms, which takes the raw data, put it in a hash table and set up a graph according to the data. We also implemented a try-catch statement which is used to filter out the broken data, and as we expected, very few data entries were filered out. We didn't have much clue on the make file, and had some trouble making it up, but we have eventually fixed it witht he help of the office hour. Now our code can compile and branches are made so that we can work separately. We are basically caught up with the deadline, and we have plans to put in more work whenever possible during the break. Overall, our progress is pretty good. 
+
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+Weekly Log 
+Date: 12/4/2021
+Progress: During the thanksgiving week, we have made some progress on the project. Two of the the three algorithms that we worked on, JohnsonAlgo and Djikstras, are able to compile and run with some minor bugs. JohnsonAlgo couldn't process any large dataset, since it wasn't designed to do so. Djikstras algorithm is almost good, but priority queue wasn't used during the implementation of the algorithm. Thus, the time it takes is longer than it should. After the tahnksgiving break, we continued working on over project and also had our midpoint check, which wasn't very ideal. We didn't know that at least one complete algorithm has to be done, and got a penalty for that. Also, due to some difficulties on communication with our mentor, there were plenty of issues that we have to fix. During the midpoint check, we have decided to change JohnsonAlgo to visualization, which can be considered as an algorithm not covered on class and has been approved by our mentor. At 
+the weekly meeting, we have fixed the project proposal accordingly.
