@@ -9,8 +9,8 @@
 #include "graph.h"
 
 Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) {
-  read_airports(airports_file_name);
-  read_routes(routes_file_name);
+  ReadAirports(airports_file_name);
+  ReadRoutes(routes_file_name);
 }
 
 std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
@@ -21,6 +21,7 @@ std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
     Airport destination = it->get_destination();
     adjacency_list[origin.get_index()].push_back(destination.get_index());
   }
+
   for (size_t i = 0; i < adjacency_list.size(); i++) {
     std::cout << "Row " << i << ": ";
     for (size_t j = 0; j < adjacency_list[i].size(); j++){
@@ -28,10 +29,20 @@ std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
     }
     std::cout << std::endl;
   } 
+
+  // for (size_t i = 0; i < adjacency_list.size(); i++) {
+  //   const auto& row = adjacency_list[i];
+  //   for (auto element : row) {
+  //     if (std::count(adjacency_list[element].begin(), adjacency_list[element].end(), i)) {
+  //       std::cout << i << "  " << element << std::endl;
+  //     }
+  //   }
+  // }
+
   return adjacency_list;
 }
 
-void Graph::read_airports(const std::string& airports_file_name) {
+void Graph::ReadAirports(const std::string& airports_file_name) {
   // Airport lax("LAX", "Los Angeles International Airport", "Los Angeles", 0, 0, 0);
   // Airport ewr("EWR", "Newark Liberty International Airport", "Newark", 0, 0, 1);
   // Airport jfk("JFK", "John F Kennedy International Airport", "New York", 0, 0, 2);
@@ -81,9 +92,9 @@ void Graph::read_airports(const std::string& airports_file_name) {
   size_t vertex_index = 0;
   if (airport_file.is_open()) {
     while (getline(airport_file, line)) {
-      if (kVertices_.size() > 55) {
-        break;
-      }
+      // if (kVertices_.size() > 92) {
+      //   break;
+      // }
       // Convert line to stringstream object and grab each comma separated value
       std::stringstream ss(line);
       std::vector<std::string> vect;
@@ -126,7 +137,7 @@ void Graph::read_airports(const std::string& airports_file_name) {
   }
 }
 
-void Graph::read_routes(const std::string& routes_file_name) {
+void Graph::ReadRoutes(const std::string& routes_file_name) {
   // kEdges_.push_back(Route(kVertices_.at("LAX"), kVertices_.at("EWR"), 0));
 
   // kEdges_.push_back(Route(kVertices_.at("EWR"), kVertices_.at("JFK"), 0));
@@ -198,7 +209,7 @@ double Graph::CalculateAirportDistance(const Airport& origin, const Airport& des
     double delta_long = ToRad(destination.get_longitude() - origin.get_longitude());
 
     double a = (std::sin((lat2 - lat1) / 2) * std::sin((lat2 - lat1) / 2)) + 
-               (std::cos(lat1) * std::cos(lat2)) +
+               (std::cos(lat1) * std::cos(lat2)) *
                (std::sin((delta_long) / 2) * std::sin((delta_long) / 2));
     double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));
 

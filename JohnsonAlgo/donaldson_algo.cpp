@@ -64,6 +64,7 @@ std::vector<std::vector<Airport>> DonaldsonAlgo::GetAllCycles() {
 }
 
 bool DonaldsonAlgo::FindCycles(int v, int s, std::vector<std::vector<int>> adj_list) {
+  std::cout << __LINE__ << std::endl;
   bool f = false;
   stack_.push_back(v);
   blocked_[v] = true;
@@ -75,7 +76,7 @@ bool DonaldsonAlgo::FindCycles(int v, int s, std::vector<std::vector<int>> adj_l
       std::vector<Airport> cycle;
       for (size_t j = 0; j < stack_.size(); j++) {
         int index = stack_[j];
-        cycle.push_back(kAirportRoutes_.get_airports()[index]);
+        cycle.push_back(kAirportRoutes_.GetAirports()[index]);
       }
       cycles_.push_back(cycle);
       f = true;
@@ -86,8 +87,6 @@ bool DonaldsonAlgo::FindCycles(int v, int s, std::vector<std::vector<int>> adj_l
       }
     }
   }
-
-
 
   if (f) {
     unblock(v);

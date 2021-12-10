@@ -28,7 +28,8 @@ public:
    * Puts key information of airport into outstream object
    */
   friend std::ostream& operator<<(std::ostream& os, const Airport& airport) { 
-    return os << airport.kID_ << ", " << airport.kName_ << ", " << airport.kCity_; 
+    return os << airport.kID_ << ", " << airport.kName_ << ", " << airport.kCity_ << ", " 
+              << airport.kLongitude_ << ", " << airport.kLatitude_; 
   }
 
 private:
