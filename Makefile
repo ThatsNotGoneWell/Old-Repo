@@ -38,11 +38,14 @@ main.o : main.cpp graph.h cs225/PNG.h cs225/HSLAPixel.h
 graph.o : graph.cpp graph.h
 	$(CXX) $(CXXFLAGS) graph.cpp
 
-# donaldson_algo.o : JohnsonAlgo/donaldson_algo.cpp JohnsonAlgo/donaldson_algo.h
-# 	$(CXX) $(CXXFLAGS) JohnsonAlgo/donaldson_algo.cpp
+test: output_msg catchmain.o visualizer_tests.o PNG.o HSLAPixel.o lodepng.o graph.o
+	$(LD) catchmain.o visualizer_tests.o PNG.o HSLAPixel.o lodepng.o graph.o $(LDFLAGS) -o test
 
-# strong_connected_components.o : JohnsonAlgo/strong_connected_components.cpp JohnsonAlgo/strong_connected_components.h
-# 	$(CXX) $(CXXFLAGS) JohnsonAlgo/strong_connected_components.cpp
+catchmain.o : cs225/catch/catchmain.cpp cs225/catch/catch.hpp
+	$(CXX) $(CXXFLAGS) cs225/catch/catchmain.cpp
+
+visualizer_tests.o : visualizer_tests.cpp cs225/catch/catch.hpp graph.cpp graph.h visualizer.h
+	$(CXX) $(CXXFLAGS) visualizer_tests.cpp
 
 PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
 	$(CXX) $(CXXFLAGS) cs225/PNG.cpp

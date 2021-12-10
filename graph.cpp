@@ -22,69 +22,10 @@ std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
     adjacency_list[origin.get_index()].push_back(destination.get_index());
   }
 
-  for (size_t i = 0; i < adjacency_list.size(); i++) {
-    std::cout << "Row " << i << ": ";
-    for (size_t j = 0; j < adjacency_list[i].size(); j++){
-      std::cout << adjacency_list[i][j] << "  ";
-    }
-    std::cout << std::endl;
-  } 
-
-  // for (size_t i = 0; i < adjacency_list.size(); i++) {
-  //   const auto& row = adjacency_list[i];
-  //   for (auto element : row) {
-  //     if (std::count(adjacency_list[element].begin(), adjacency_list[element].end(), i)) {
-  //       std::cout << i << "  " << element << std::endl;
-  //     }
-  //   }
-  // }
-
   return adjacency_list;
 }
 
 void Graph::ReadAirports(const std::string& airports_file_name) {
-  // Airport lax("LAX", "Los Angeles International Airport", "Los Angeles", 0, 0, 0);
-  // Airport ewr("EWR", "Newark Liberty International Airport", "Newark", 0, 0, 1);
-  // Airport jfk("JFK", "John F Kennedy International Airport", "New York", 0, 0, 2);
-  // Airport sfo("SFO", "San Francisco International Airport", "San Francisco", 0, 0, 3);
-  // Airport dfw("DFW", "Dallas Fort Worth International Airport", "Dallas-Fort Worth", 0, 0, 4);
-  // Airport jnu("JNU", "Juneau International Airport", "Juneau", 0, 0, 5);
-  // Airport lft("LFT", "afayette Regional Airport", "Lafayette", 0, 0, 6);
-  // Airport boi("BOI", "Boise Air Terminal/Gowen Field", "Boise", 0, 0, 7);
-  // Airport fll("FLL", "Fort Lauderdale Hollywood International Airport", "Fort Lauderdale", 0, 0, 8);
-  // Airport slc("SLC", "Salt Lake City International Airport", "Salt Lake City", 0, 0, 9);
-
-
-  // kVertices_.emplace("LAX", lax);
-  // kAirports_.push_back(lax);
-
-  // kVertices_.emplace("EWR", ewr);
-  // kAirports_.push_back(ewr);
-
-  // kVertices_.emplace("JFK", jfk);
-  // kAirports_.push_back(jfk);
-
-  // kVertices_.emplace("SFO", sfo);
-  // kAirports_.push_back(sfo);
-
-  // kVertices_.emplace("DFW", dfw);
-  // kAirports_.push_back(dfw);
-
-  // kVertices_.emplace("JNU", jnu);
-  // kAirports_.push_back(jnu);
-
-  // kVertices_.emplace("LFT", lft);
-  // kAirports_.push_back(lft);
-
-  // kVertices_.emplace("BOI", boi);
-  // kAirports_.push_back(boi);
-
-  // kVertices_.emplace("FLL", fll);
-  // kAirports_.push_back(fll);
-
-  // kVertices_.emplace("SLC", slc);
-  // kAirports_.push_back(slc);
-
   std::ifstream airport_file(airports_file_name);
   std::string line;
 
@@ -117,15 +58,15 @@ void Graph::ReadAirports(const std::string& airports_file_name) {
         id = id.substr(1, id.size() - 2);
         std::string name = vect[1].substr(1, vect[1].size() - 2);
         std::string city = vect[2].substr(1, vect[2].size() - 2);
+        std::string country = vect[3].substr(1, vect[3].size() - 2);
         double longitude = std::stod(vect[7]);
         double latitude = std::stod(vect[6]);
 
-        std::string country = vect[3].substr(1, vect[3].size() - 2);
-        if (country != "United States") {
-          continue;
-        }
+        // if (country != "United States") {
+        //   continue;
+        // }
 
-        Airport new_vertex(id, name, city, longitude, latitude, vertex_index);
+        Airport new_vertex(id, name, city, country, longitude, latitude, vertex_index);
         kVertices_.emplace(id, new_vertex);
         kAirports_.push_back(new_vertex);
 
@@ -138,28 +79,6 @@ void Graph::ReadAirports(const std::string& airports_file_name) {
 }
 
 void Graph::ReadRoutes(const std::string& routes_file_name) {
-  // kEdges_.push_back(Route(kVertices_.at("LAX"), kVertices_.at("EWR"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("EWR"), kVertices_.at("JFK"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("JFK"), kVertices_.at("LAX"), 0));
-  // kEdges_.push_back(Route(kVertices_.at("JFK"), kVertices_.at("LFT"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("SFO"), kVertices_.at("DFW"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("DFW"), kVertices_.at("JNU"), 0));
-  // kEdges_.push_back(Route(kVertices_.at("DFW"), kVertices_.at("LFT"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("JNU"), kVertices_.at("SFO"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("LFT"), kVertices_.at("EWR"), 0));
-  // kEdges_.push_back(Route(kVertices_.at("LFT"), kVertices_.at("BOI"), 0));
-
-  // kEdges_.push_back(Route(kVertices_.at("BOI"), kVertices_.at("FLL"), 0));
-  
-  // kEdges_.push_back(Route(kVertices_.at("FLL"), kVertices_.at("LFT"), 0));
-
-
   std::ifstream route_file(routes_file_name);
   std::string line;
 

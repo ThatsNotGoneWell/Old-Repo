@@ -6,6 +6,7 @@ data/.
 *.swo
 *.swn
 *.swm
+*.png
 
 *DS_Store
 
