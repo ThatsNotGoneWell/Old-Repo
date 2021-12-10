@@ -68,15 +68,26 @@ dijkstra :: dijkstra ( std::string arrival_ ,  std::string departure_ ) {
     
     
 }
-void dijkstra :: get_shortest ( ) {
+bool dijkstra :: get_shortest ( ) {
   Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
   std::vector<Airport> kAirports  = graph . get_airports( ) ;
   int i = arrival_idx  ;
-  while ( i!= departure_idx ){ 
-    std::cout << kAirports [i ] . get_id ( )    ;
+  while ( true ){ 
+    // std::cout << kAirports [i ] . get_id ( )    ;
+    visalization .push (kAirports [i ] )  ;
     i= distance_ [i ] .second ;
     if ( i == -1 ) {
+     return false  ;
+    }
+    if ( i == departure_idx ) {
+      visalization .push (kAirports [i ] )  ;
       break ;
     }
   }
+  while ( visalization . empty( ) == false ) {
+    visua . push_back ( visalization .top ( ) ) ;
+    visalization .pop( );
+  }
+  return true ;
+  
 }
