@@ -19,6 +19,7 @@ public:
    */
   static std::vector<std::vector<int>> VisualizePath(const std::vector<Airport>& airports, size_t image_width, size_t image_height,
                             const std::string& input_file_name, const std::string& output_file_name) {
+                              
     cs225::PNG png;
     png.readFromFile(input_file_name);
 
@@ -35,13 +36,15 @@ public:
       const Airport& airport = airports[index];
 
       // project longitude and latitude onto 2d map coordinates
-      size_t projected_x =  (size_t) ((image_width * (180 + airport.get_longitude())) / 360);
-      size_t projected_y =  (size_t) ((image_height * (90 - airport.get_latitude())) / 180);
+      size_t projected_x =  (size_t) ((image_width * (180 + airport.GetLongitude())) / 360);
+      size_t projected_y =  (size_t) ((image_height * (90 - airport.GetLatitude())) / 180);
 
       // draw square around airport coordinates
       for (size_t x = (projected_x - airport_size); x < (projected_x + airport_size); x++) {
         for (size_t y = (projected_y - airport_size); y < (projected_y + airport_size); y++) {
-
+          if (x >= image_width) {
+            continue;
+          }
           cs225::HSLAPixel& pixel = png.getPixel(x, y);
           // change color depending on if it's starting or ending airport
           if (index == 0) {
@@ -137,8 +140,8 @@ private:
       const Airport& airport = airports[index];
 
       // project longitude and latitude onto 2d map coordinates
-      size_t projected_x =  (size_t) ((png_width * (180 + airport.get_longitude())) / 360);
-      size_t projected_y =  (size_t) ((png_height * (90 - airport.get_latitude())) / 180);
+      size_t projected_x =  (size_t) ((png_width * (180 + airport.GetLongitude())) / 360);
+      size_t projected_y =  (size_t) ((png_height * (90 - airport.GetLatitude())) / 180);
 
       // store projected coordiantes for drawing routes
       points[index].push_back(projected_x);

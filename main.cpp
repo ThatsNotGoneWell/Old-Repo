@@ -11,7 +11,7 @@ using namespace std::chrono;
 int main() {
   Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
   std::vector<Airport> airports;
-  std::cout << "AAAA" << std::endl;
+
   airports.push_back(graph.GetAirport("JFK"));
   airports.push_back(graph.GetAirport("DFW"));
   airports.push_back(graph.GetAirport("ORD"));
@@ -28,7 +28,7 @@ int main() {
   airports.push_back(graph.GetAirport("HND"));
   airports.push_back(graph.GetAirport("SYD"));
 
-  Visualizer::VisualizePath(airports);
-
+  std::vector<std::vector<int>> points = Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "dummy_routes.png");
+  
   return 1;
 }

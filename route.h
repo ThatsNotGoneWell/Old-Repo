@@ -11,11 +11,11 @@ public:
   /**
    * getter functions 
    */
-  inline const Airport& get_origin() const { return kOrigin_; }
+  inline const Airport& GetOrigin() const { return kOrigin_; }
 
-  inline const Airport& get_destination() const { return kDestination_; }
+  inline const Airport& GetDestination() const { return kDestination_; }
 
-  inline double get_distance() const { return kDistance_; }
+  inline double GetDistance() const { return kDistance_; }
 
   
   /**
@@ -25,9 +25,12 @@ public:
     return os << "Origin: " << route.kOrigin_ << '\n' << "Destination: " << route.kDestination_; 
   }
 
+  /**
+   * Checks equality of routes by comparing the ID's of their origin and destination airports
+   */
   friend bool operator==(const Route& lhs, const Route& rhs) { 
-    return (lhs.kOrigin_.get_id() == rhs.kOrigin_.get_id()) && 
-           (lhs.kDestination_.get_id() == rhs.kDestination_.get_id()); 
+    return (lhs.kOrigin_.GetID() == rhs.kOrigin_.GetID()) && 
+           (lhs.kDestination_.GetID() == rhs.kDestination_.GetID()); 
   }
 
 

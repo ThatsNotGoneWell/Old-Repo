@@ -13,19 +13,19 @@ public:
   /**
    * getter functions 
    */
-  inline const std::string& get_id() const { return kID_; }
+  inline const std::string& GetID() const { return kID_; }
 
-  inline const std::string& get_name() const { return kName_; }
+  inline const std::string& GetName() const { return kName_; }
 
-  inline const std::string& get_city() const { return kCity_; }
+  inline const std::string& GetCity() const { return kCity_; }
 
-  inline const std::string& get_country() const { return kCountry_; }
+  inline const std::string& GetCountry() const { return kCountry_; }
 
-  inline double get_latitude() const { return kLatitude_; }
+  inline double GetLatitude() const { return kLatitude_; }
 
-  inline double get_longitude() const { return kLongitude_; }
+  inline double GetLongitude() const { return kLongitude_; }
 
-  inline double get_index() const { return kIndex_; }
+  inline double GetIndex() const { return kIndex_; }
 
   /**
    * Puts key information of airport into outstream object
