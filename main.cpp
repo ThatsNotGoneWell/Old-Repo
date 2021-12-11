@@ -1,6 +1,8 @@
 #include "airport.h"
 #include "route.h"
 #include "graph.h"
+#include "BFS.h"
+#include "dijkstra.h"
 #include "visualizer.h"
 
 #include <algorithm>
@@ -12,23 +14,14 @@ int main() {
   Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
   std::vector<Airport> airports;
 
-  airports.push_back(graph.GetAirport("JFK"));
-  airports.push_back(graph.GetAirport("DFW"));
-  airports.push_back(graph.GetAirport("ORD"));
-  airports.push_back(graph.GetAirport("LAX"));
-  airports.push_back(graph.GetAirport("SEA"));
-  airports.push_back(graph.GetAirport("ATL"));
-  airports.push_back(graph.GetAirport("LHR"));
-  airports.push_back(graph.GetAirport("SXF"));
-  airports.push_back(graph.GetAirport("DXB"));
-  airports.push_back(graph.GetAirport("SVO"));
-  airports.push_back(graph.GetAirport("DEL"));
-  airports.push_back(graph.GetAirport("PEK"));
-  airports.push_back(graph.GetAirport("ICN"));
-  airports.push_back(graph.GetAirport("HND"));
-  airports.push_back(graph.GetAirport("SYD"));
+  dijkstra dijkstra_(graph);
+  std::vector<Airport> dijkstra_path = dijkstra_.find_shortest("ORD", "SFO");
+  std::vector<std::vector<int>> dijkstra_points = Visualizer::VisualizePath(dijkstra_path, 1944, 1009, "world_map.png", "dijkstra_path");
 
-  std::vector<std::vector<int>> points = Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "dummy_routes.png");
+  BFS bfs(graph);
+  bfs.printShortestPath("PEK", "SFO");
+  std::vector<Airport> bfs_path = bfs.getVisualizationPath();
+  std::vector<std::vector<int>> bfs_points = Visualizer::VisualizePath(bfs_path, 1944, 1009, "world_map.png", "bfs_path");
   
   return 1;
 }

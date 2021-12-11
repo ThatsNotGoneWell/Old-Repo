@@ -33,6 +33,11 @@ public:
 
   inline const std::vector<Airport>& GetAirports() const { return kAirports_; }
 
+  /**
+   * Calculates distance between two airports in kilometers
+   */
+  double CalculateAirportDistance(const Airport& origin, const Airport& destination) const;
+  
 private:
   
   /**
@@ -46,11 +51,6 @@ private:
    * Converts degrees to radians
    */
   double ToRad(double degree) const;
-
-  /**
-   * Calculates distance between two airports in kilometers
-   */
-  double CalculateAirportDistance(const Airport& origin, const Airport& destination) const;
 
   /**
    * @kVertices_ : maps each airport 3-letter IATA code to its respective airport object

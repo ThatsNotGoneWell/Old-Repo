@@ -12,7 +12,7 @@ TEST_CASE("Draw All Routes", "[weight=1]") {
     airports.push_back(airport);
   }
   
-  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "all_routes.png");
+  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "all_routes");
   REQUIRE(airports[0].GetID() == "GKA");
 }
 
@@ -25,7 +25,7 @@ TEST_CASE("Draw All Canadian Routes", "[weight=1]") {
     }
   }
   
-  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "canadian_routes.png");
+  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "canadian_routes");
   REQUIRE(airports[0].GetID() == "YAM");
 }
 
@@ -38,21 +38,8 @@ TEST_CASE("Draw All Russian Routes", "[weight=1]") {
     }
   }
 
-  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "russian_routes.png");
+  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "russian_routes");
   REQUIRE(airports[0].GetID() == "YKS");
-}
-
-TEST_CASE("Draw All Australian Routes", "[weight=1]") {
-  std::vector<Airport> airports;
-
-  for (const auto& airport : graph.GetAirports()) {
-    if (airport.GetCountry() == "Australia") {
-      airports.push_back(airport);
-    }
-  }
-
-  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "australian_routes.png");
-  REQUIRE(airports[0].GetID() == "ACF");
 }
 
 TEST_CASE("Draw All Brazilian Routes", "[weight=1]") {
@@ -64,7 +51,7 @@ TEST_CASE("Draw All Brazilian Routes", "[weight=1]") {
     }
   }
 
-  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "brazilian_routes.png");
+  Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "brazilian_routes");
   REQUIRE(airports[0].GetID() == "CDJ");
 }
 
@@ -76,7 +63,7 @@ TEST_CASE("Draw Dummy Routes", "[weight=1]") {
   airports.push_back(graph.GetAirport("LAX"));
   airports.push_back(graph.GetAirport("ATL"));
 
-  std::vector<std::vector<int>> points = Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "dummy_routes.png");
+  std::vector<std::vector<int>> points = Visualizer::VisualizePath(airports, 1944, 1009, "world_map.png", "dummy_routes");
 
   REQUIRE(airports[0].GetID() == "JFK");
   REQUIRE(airports[1].GetID() == "ORD");

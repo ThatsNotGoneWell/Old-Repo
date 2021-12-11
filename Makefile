@@ -1,5 +1,5 @@
 EXENAME = main
-OBJS = main.o graph.o PNG.o HSLAPixel.o lodepng.o
+OBJS = main.o graph.o PNG.o HSLAPixel.o lodepng.o BFS.o dijkstra.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -c -g -O0 -Wall -Wextra -pedantic
@@ -32,14 +32,14 @@ output_msg: ; $(CLANG_VERSION_MSG)
 $(EXENAME) : output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
-main.o : main.cpp graph.h cs225/PNG.h cs225/HSLAPixel.h
+main.o : main.cpp graph.h cs225/PNG.h cs225/HSLAPixel.h BFS.h
 	$(CXX) $(CXXFLAGS) main.cpp
 
 graph.o : graph.cpp graph.h
 	$(CXX) $(CXXFLAGS) graph.cpp
 
-test: output_msg catchmain.o visualizer_tests.o PNG.o HSLAPixel.o lodepng.o graph.o
-	$(LD) catchmain.o visualizer_tests.o PNG.o HSLAPixel.o lodepng.o graph.o $(LDFLAGS) -o test
+test: output_msg catchmain.o visualizer_tests.o PNG.o HSLAPixel.o lodepng.o graph.o BFS_test.o BFS.o dijkstra_test.o dijkstra.o
+	$(LD) catchmain.o visualizer_tests.o PNG.o HSLAPixel.o lodepng.o graph.o BFS_test.o BFS.o dijkstra_test.o dijkstra.o $(LDFLAGS) -o test
 
 catchmain.o : cs225/catch/catchmain.cpp cs225/catch/catch.hpp
 	$(CXX) $(CXXFLAGS) cs225/catch/catchmain.cpp
@@ -49,6 +49,18 @@ visualizer_tests.o : visualizer_tests.cpp cs225/catch/catch.hpp graph.cpp graph.
 
 PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
 	$(CXX) $(CXXFLAGS) cs225/PNG.cpp
+
+BFS_test.o : BFS_test.cpp cs225/catch/catch.hpp graph.cpp graph.h BFS.h BFS.cpp
+	$(CXX) $(CXXFLAGS) BFS_test.cpp
+
+BFS.o : BFS.cpp BFS.h
+	$(CXX) $(CXXFLAGS) BFS.cpp
+
+dijkstra.o : dijkstra.cpp dijkstra.h 
+	$(CXX) $(CXXFLAGS) dijkstra.cpp 
+
+dijkstra_test.o : dijkstra_test.cpp cs225/catch/catch.hpp graph.cpp graph.h dijkstra.h
+	$(CXX) $(CXXFLAGS) dijkstra_test.cpp 
 
 HSLAPixel.o : cs225/HSLAPixel.cpp cs225/HSLAPixel.h
 	$(CXX) $(CXXFLAGS) cs225/HSLAPixel.cpp

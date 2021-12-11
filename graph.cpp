@@ -17,9 +17,9 @@ std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
   std::vector<std::vector<int>> adjacency_list(kVertices_.size(), std::vector<int>());
 
   for(auto it = kEdges_.begin(); it != kEdges_.end(); ++it) {
-    Airport origin = it->get_origin();
-    Airport destination = it->get_destination();
-    adjacency_list[origin.get_index()].push_back(destination.get_index());
+    Airport origin = it->GetOrigin();
+    Airport destination = it->GetDestination();
+    adjacency_list[origin.GetIndex()].push_back(destination.GetIndex());
   }
 
   return adjacency_list;
@@ -33,9 +33,7 @@ void Graph::ReadAirports(const std::string& airports_file_name) {
   size_t vertex_index = 0;
   if (airport_file.is_open()) {
     while (getline(airport_file, line)) {
-      // if (kVertices_.size() > 92) {
-      //   break;
-      // }
+
       // Convert line to stringstream object and grab each comma separated value
       std::stringstream ss(line);
       std::vector<std::string> vect;
@@ -61,10 +59,6 @@ void Graph::ReadAirports(const std::string& airports_file_name) {
         std::string country = vect[3].substr(1, vect[3].size() - 2);
         double longitude = std::stod(vect[7]);
         double latitude = std::stod(vect[6]);
-
-        // if (country != "United States") {
-        //   continue;
-        // }
 
         Airport new_vertex(id, name, city, country, longitude, latitude, vertex_index);
         kVertices_.emplace(id, new_vertex);
@@ -122,10 +116,10 @@ double Graph::ToRad(double degree) const {
 }
 
 double Graph::CalculateAirportDistance(const Airport& origin, const Airport& destination) const {
-    double lat1 = ToRad(origin.get_latitude());
-    double lat2 = ToRad(destination.get_latitude());
+    double lat1 = ToRad(origin.GetLatitude());
+    double lat2 = ToRad(destination.GetLatitude());
 
-    double delta_long = ToRad(destination.get_longitude() - origin.get_longitude());
+    double delta_long = ToRad(destination.GetLongitude() - origin.GetLongitude());
 
     double a = (std::sin((lat2 - lat1) / 2) * std::sin((lat2 - lat1) / 2)) + 
                (std::cos(lat1) * std::cos(lat2)) *

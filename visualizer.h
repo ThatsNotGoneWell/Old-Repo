@@ -3,6 +3,7 @@
 #include "cs225/HSLAPixel.h"
 
 #include <math.h> 
+#include <fstream>
 
 class Visualizer {
 
@@ -18,7 +19,7 @@ public:
    * @output_file_name : name of output file (world map png with routes drawn)
    */
   static std::vector<std::vector<int>> VisualizePath(const std::vector<Airport>& airports, size_t image_width, size_t image_height,
-                            const std::string& input_file_name, const std::string& output_file_name) {
+                            const std::string& input_file_name, std::string output_file_name) {
                               
     cs225::PNG png;
     png.readFromFile(input_file_name);
@@ -118,7 +119,8 @@ public:
 
     }
     
-    png.writeToFile(output_file_name);
+    png.writeToFile(output_file_name.append(".png"));
+    WritePathToFile(airports, output_file_name);
 
     return points;
   }
@@ -153,4 +155,27 @@ private:
     return points;
   }
 
+  /**
+   * Prints path of airports to text file
+   *
+   * @airports : vector of airport objects ordered by path
+   * @output_file_name : name of output file
+   */ 
+  static void WritePathToFile(const std::vector<Airport>& airports, std::string output_file_name) {
+    std::ofstream routes_file;
+    routes_file.open(output_file_name.append(".txt"));
+
+    for (size_t index = 0; index < airports.size(); index++) {
+      Airport airport = airports[index];
+      routes_file << airport.GetID() << ", "<< airport.GetCity() << std::endl;
+
+      if (index != airports.size() - 1) {
+        routes_file << "||" << std::endl;
+        routes_file << "||" << std::endl;
+        routes_file << "V" << std::endl;
+      }
+    }
+
+    routes_file.close();
+  }
 };
