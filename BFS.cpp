@@ -21,40 +21,19 @@
 #include "BFS.h"
 #include "airport.h"
 
-BFS::BFS(Graph graph) {
+BFS::BFS(const Graph& graph) {
     adj_list = graph.MakeAdjacencyList();
     num_of_airports = graph.get_vertices().size();
 
-    // represent airports in a vector so we can use indexing (possibly need to change constructor or read_airports)
+    // maps airports to an index
     for (auto elem : graph.get_vertices()) {
         airport_map.emplace(elem.second.get_index(), elem.first);
-        //std::cout << elem.first << i << std::endl;
+        airport_obj_copies.emplace(elem.first, elem.second);
     }
-
-    //print out adj list
-    // for (unsigned long i = 0; i < adj_list.size(); i++)
-    // {
-    //     for (unsigned long j = 0; j < adj_list[i].size(); j++)
-    //     {
-    //         std::cout << adj_list[i][j] << " ";
-    //     }   
-    // }
-    // std::cout << std::endl;
-
-    // prints out adj edges for departure and arrival airports
-    // std::cout << "Departure connecting airports: ";
-    // for (unsigned long i = 0; i < adj_list[departure_index].size(); i++) {
-    //     std::cout << adj_list[departure_index][i] << " ";
-    // }
-    
-    // std::cout << "Arrival connecting airports: ";
-    // for (unsigned long i = 0; i < adj_list[arrival_index].size(); i++) {
-    //     std::cout << adj_list[arrival_index][i] << " ";
-    // }
 }
 
 // checks if path exists and finds shortest one
-bool BFS::findShortestPath(std::string departure, std::string arrival, int prev_nodes[], int node_dists[]) {
+bool BFS::findShortestPath(const std::string& departure, const std::string& arrival, int prev_nodes[], int node_dists[]) {
     // finds indicies of departure and arrival airports
     for (auto elem : airport_map) {
         if (elem.second == departure) {
@@ -100,12 +79,13 @@ bool BFS::findShortestPath(std::string departure, std::string arrival, int prev_
     return false;
 }
 
-void BFS::printShortestPath(std::string departure, std::string arrival) {
+void BFS::printShortestPath(const std::string& departure, const std::string& arrival) {
     int prev_nodes[num_of_airports], node_dists[num_of_airports];
  
     // checks for a path
     if (findShortestPath(departure, arrival, prev_nodes, node_dists) == false) {
-        std::cout << "No path found" << std::endl;
+        std::cout << "\nNo path found from " << arrival << " to " << departure << std::endl;
+        airport_path.clear();
         return;
     }
     
@@ -118,13 +98,12 @@ void BFS::printShortestPath(std::string departure, std::string arrival) {
         temp = prev_nodes[temp];
     }
  
-    // prints path
+    // prints path and adds airports to visualization vector (input for visualizaiton)
     std::cout << "\nShortest path length is: " << node_dists[arrival_index];
     std::cout << "\nPath is: ";
     for (auto elem : airport_path) {
         std::cout << elem << " ";
+        visualization_path.push_back(airport_obj_copies.at(elem));
     }
     std::cout << std::endl;
-
-    
 }

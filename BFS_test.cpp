@@ -16,6 +16,26 @@ TEST_CASE("Check SFO to PEK", "[weight=1]") {
 }
 
 // 2
+TEST_CASE("Check ATL to DIA", "[weight=1]") {
+    bfs.printShortestPath("DIA", "ATL");
+   
+    REQUIRE(bfs.getRouteLength() == 0);
+}
+
+// 3
+TEST_CASE("Check RKV to RDD", "[weight=1]") {
+    bfs.printShortestPath("RDD", "RKV");
+    
+    REQUIRE(bfs.getPath().at(0) == "RKV");
+    REQUIRE(bfs.getPath().at(1) == "GOH");
+    REQUIRE(bfs.getPath().at(2) == "KEF");
+    REQUIRE(bfs.getPath().at(3) == "JFK");
+    REQUIRE(bfs.getPath().at(4) == "SFO");
+    REQUIRE(bfs.getPath().at(5) == "RDD");
+    REQUIRE(bfs.getRouteLength() == 6);
+}
+
+// 4
 TEST_CASE("Check CMI to SFO", "[weight=1]") {
     bfs.printShortestPath("SFO", "CMI");
     
@@ -25,8 +45,8 @@ TEST_CASE("Check CMI to SFO", "[weight=1]") {
     REQUIRE(bfs.getRouteLength() == 3);
 }
 
-// 3
-TEST_CASE("Check ORD to SYD", "[weight=1]") {
+// 5
+TEST_CASE("Check SYD to ORD", "[weight=1]") {
     bfs.printShortestPath("ORD", "SYD");
     
     REQUIRE(bfs.getPath().at(0) == "SYD");
@@ -35,7 +55,7 @@ TEST_CASE("Check ORD to SYD", "[weight=1]") {
     REQUIRE(bfs.getRouteLength() == 3);
 }
 
-// 4
+// 6
 TEST_CASE("Check SJC to RKV", "[weight=1]") {
     bfs.printShortestPath("RKV", "SJC");
     
@@ -47,7 +67,7 @@ TEST_CASE("Check SJC to RKV", "[weight=1]") {
     REQUIRE(bfs.getRouteLength() == 5);
 }
 
-// 5
+// 7
 TEST_CASE("Check IPC to PEK", "[weight=1]") {
     bfs.printShortestPath("PEK", "IPC");
     
@@ -57,3 +77,4 @@ TEST_CASE("Check IPC to PEK", "[weight=1]") {
     REQUIRE(bfs.getPath().at(3) == "PEK");
     REQUIRE(bfs.getRouteLength() == 4);
 }
+

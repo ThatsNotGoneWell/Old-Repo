@@ -7,7 +7,7 @@
 int main() {
     Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
     BFS bfs(graph);
-    bfs.printShortestPath("PEK", "IPC");
+    bfs.printShortestPath("DIA", "ATL");
     // bfs.printShortestPath("ORD", "LAX");
     // bfs.printShortestPath("SFO", "JFK");
     return 1;
