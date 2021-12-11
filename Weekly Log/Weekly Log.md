@@ -42,3 +42,19 @@ Weekly Log
 Date: 12/4/2021
 Progress: During the thanksgiving week, we have made some progress on the project. Two of the the three algorithms that we worked on, JohnsonAlgo and Djikstras, are able to compile and run with some minor bugs. JohnsonAlgo couldn't process any large dataset, since it wasn't designed to do so. Djikstras algorithm is almost good, but priority queue wasn't used during the implementation of the algorithm. Thus, the time it takes is longer than it should. After the tahnksgiving break, we continued working on over project and also had our midpoint check, which wasn't very ideal. We didn't know that at least one complete algorithm has to be done, and got a penalty for that. Also, due to some difficulties on communication with our mentor, there were plenty of issues that we have to fix. During the midpoint check, we have decided to change JohnsonAlgo to visualization, which can be considered as an algorithm not covered on class and has been approved by our mentor. At 
 the weekly meeting, we have fixed the project proposal accordingly. As for the algorithms, BFS is working properly and can be used to find the shortest path. Djisktras is still in progress and visualization is almost complete. Overall, we are ahead of the timeline.
+
+
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+Weekly Log 
+Date: 12/11/2021
+Progress: In this final week, we wrapped up all the codes we have done and merged it into the main branch. Test cases were made to check every single airport in the generated path with the correct one. All the algorithms are working as intended, and all the deliverables are also made, including Final Project Report, Presentation video and README. Since we are keeping up with the timeline all this time, the project is almost finished at this point, and we expect to have it done a day before the deadline.
+
+
+-----------------------------------------THE END------------------------------------------------
