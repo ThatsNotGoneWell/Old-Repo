@@ -113,9 +113,9 @@ void Graph::read_airports(const std::string& airports_file_name) {
         std::string country = vect[3].substr(1, vect[3].size() - 2);
 
         // only reads airpots in USA
-        if (country != "United States") {
-          continue;
-        }
+        // if (country != "United States") {
+        //   continue;
+        // }
 
         Airport new_vertex(id, name, city, longitude, latitude, vertex_index);
         kVertices_.emplace(id, new_vertex);

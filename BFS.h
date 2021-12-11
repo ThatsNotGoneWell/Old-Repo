@@ -17,9 +17,11 @@
 class BFS {
 
 public:
-    BFS(const std::string departure, const std::string arrival);
+    BFS(Graph graph);
 
-    bool findShortestPath(int pred[], int dist[]);
+    bool findShortestPath(const std::string departure, const std::string arrival, int prev_nodes[], int node_dists[]);
+
+    void printShortestPath(const std::string departure, const std::string arrival);
 
     int getNumAirports() { return num_of_airports; }
 
@@ -27,16 +29,16 @@ public:
 
     int getArrivalIndex() { return arrival_index; }
 
-    int getRouteLength() { return path_length; }
+    int getRouteLength() { return airport_path.size(); }
+
+    std::vector<std::string> getPath() { return airport_path; }
 
     std::string getAirport(int airport_index) { return airport_map.at(airport_index); }
 
     std::vector<std::vector<int>> getAdjList() { return adj_list; }
-    
-    void printShortestPath();
 private:
-    int num_of_airports, departure_index, arrival_index, path_length;
-    std::unordered_map<std::string, Airport> routes;
+    int num_of_airports, departure_index, arrival_index;
     std::vector<std::vector<int>> adj_list;
     std::unordered_map<int, std::string> airport_map;
+    std::vector<std::string> airport_path;
 };

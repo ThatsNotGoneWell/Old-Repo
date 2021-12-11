@@ -5,9 +5,10 @@
 #include <vector>
 
 int main() {
-    //Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
-    BFS bfs("SFO", "CMI");
-    bfs.printShortestPath();
-    
+    Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
+    BFS bfs(graph);
+    bfs.printShortestPath("PEK", "IPC");
+    // bfs.printShortestPath("ORD", "LAX");
+    // bfs.printShortestPath("SFO", "JFK");
     return 1;
 }

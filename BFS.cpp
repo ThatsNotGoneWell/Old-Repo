@@ -21,18 +21,12 @@
 #include "BFS.h"
 #include "airport.h"
 
-BFS::BFS(const std::string departure, const std::string arrival) {
-    Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
+BFS::BFS(Graph graph) {
     adj_list = graph.MakeAdjacencyList();
     num_of_airports = graph.get_vertices().size();
 
     // represent airports in a vector so we can use indexing (possibly need to change constructor or read_airports)
     for (auto elem : graph.get_vertices()) {
-        if (elem.first == departure) {
-            departure_index = elem.second.get_index();
-        } else if (elem.first == arrival) {
-            arrival_index = elem.second.get_index();;
-        }
         airport_map.emplace(elem.second.get_index(), elem.first);
         //std::cout << elem.first << i << std::endl;
     }
@@ -57,97 +51,80 @@ BFS::BFS(const std::string departure, const std::string arrival) {
     // for (unsigned long i = 0; i < adj_list[arrival_index].size(); i++) {
     //     std::cout << adj_list[arrival_index][i] << " ";
     // }
-
-    std::cout << departure_index << std::endl;
-    std::cout << arrival_index << std::endl;   
 }
 
-
-// indicies instead of airport objects themselves
-bool BFS::findShortestPath(int pred[], int dist[]) {
+// checks if path exists and finds shortest one
+bool BFS::findShortestPath(std::string departure, std::string arrival, int prev_nodes[], int node_dists[]) {
     // finds indicies of departure and arrival airports
-    // for (auto elem : airport_map) {
-    //     if (elem.second == departure) {
-    //         departure_index = elem.first;
-    //     } else if (elem.second == arrival) {
-    //         arrival_index = elem.first;
-    //     }
-    // }
-
-
-    // array to track visited nodes
-    bool visited[num_of_airports];
+    for (auto elem : airport_map) {
+        if (elem.second == departure) {
+            departure_index = elem.first;
+        } else if (elem.second == arrival) {
+            arrival_index = elem.first;
+        }
+    }
     
     // none of the nodes are visited initally so we set distances to infinity and predecessors to -1
+    bool visited[num_of_airports];
     for (int i = 0; i < num_of_airports; i++) {
         visited[i] = false;
-        dist[i] = INT_MAX;
-        pred[i] = -1;
+        node_dists[i] = INT_MAX;
+        prev_nodes[i] = -1;
     }
     
     // queue to queue veriticies that have yet to be visited
-    std::list<int> queue;
+    std::list<int> q;
  
     // we visit departure first and has 0 distance to itself
     visited[departure_index] = true;
-    dist[departure_index] = 0;
-    queue.push_back(departure_index);
+    node_dists[departure_index] = 0;
+    q.push_back(departure_index);
  
-    // BFS
-    while (!queue.empty()) {
-        int u = queue.front();
-        queue.pop_front();
-        for (unsigned long i = 0; i < adj_list[u].size(); i++) {
-            if (visited[adj_list[u][i]] == false) {
-                visited[adj_list[u][i]] = true;
-                dist[adj_list[u][i]] = dist[u] + 1;
-                pred[adj_list[u][i]] = u;
-                queue.push_back(adj_list[u][i]);
+    // BFS step
+    while (!q.empty()) {
+        int j = q.front();
+        q.pop_front();
+        for (unsigned long k = 0; k < adj_list[j].size(); k++) {
+            if (!visited[adj_list[j][k]]) {
+                visited[adj_list[j][k]] = true;
+                node_dists[adj_list[j][k]] = node_dists[j] + 1;
+                prev_nodes[adj_list[j][k]] = j;
+                q.push_back(adj_list[j][k]);
  
-                // destination found
-                if (adj_list[u][i] == arrival_index) {
-                    //std::cout << "Path Found!" << std::endl;
+                if (adj_list[j][k] == arrival_index) {
                     return true;
                 }
             }   
         }
     }
-    //std::cout << "No Path Found!" << std::endl;
     return false;
 }
 
-void BFS::printShortestPath() {
-    int pred[num_of_airports], dist[num_of_airports];
+void BFS::printShortestPath(std::string departure, std::string arrival) {
+    int prev_nodes[num_of_airports], node_dists[num_of_airports];
  
     // checks for a path
-    if (findShortestPath(pred, dist) == false) {
-        std::cout << "Given source and destination are not connected";
+    if (findShortestPath(departure, arrival, prev_nodes, node_dists) == false) {
+        std::cout << "No path found" << std::endl;
         return;
     }
- 
-    // vector path stores the shortest path
-    std::vector<int> path;
-    int crawl = arrival_index;
-    path.push_back(crawl);
-    while (pred[crawl] != -1) {
-        path.push_back(pred[crawl]);
-        crawl = pred[crawl];
+    
+    // empties path and creates new one
+    airport_path.clear();
+    int temp = arrival_index;
+    airport_path.push_back(airport_map.at(temp));
+    while (prev_nodes[temp] != -1) {
+        airport_path.push_back(airport_map.at(prev_nodes[temp]));
+        temp = prev_nodes[temp];
     }
  
-    // distance from source is in distance array
-    std:: cout << "Shortest path length is : " << dist[arrival_index];
- 
-    // printing path from source to destination in 3 letter
+    // prints path
+    std::cout << "\nShortest path length is: " << node_dists[arrival_index];
     std::cout << "\nPath is: ";
-    for (int i = path.size() - 1; i >= 0; i--) {
-        std::cout << airport_map.at(path[i]) << " ";
+    for (auto elem : airport_path) {
+        std::cout << elem << " ";
     }
+    std::cout << std::endl;
 
-    // printing path from source to destination in index
-    std::cout << "\nPath is: ";
-    for (int i = path.size() - 1; i >= 0; i--) {
-        std::cout << path[i] << " ";
-    }
-
-    path_length = path.size();
+    
 }
