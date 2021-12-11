@@ -1,28 +1,41 @@
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 #include <list>
 #include <cmath>
+#include <algorithm>
 
 #include "graph.h"
 
 Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) {
-  read_airports(airports_file_name);
-  read_routes(routes_file_name);
+  ReadAirports(airports_file_name);
+  ReadRoutes(routes_file_name);
 }
 
-void Graph::read_airports(const std::string& airports_file_name) {
+std::vector<std::vector<int>> Graph::MakeAdjacencyList() const {
+  std::vector<std::vector<int>> adjacency_list(kVertices_.size(), std::vector<int>());
+
+  for(auto it = kEdges_.begin(); it != kEdges_.end(); ++it) {
+    Airport origin = it->get_origin();
+    Airport destination = it->get_destination();
+    adjacency_list[origin.get_index()].push_back(destination.get_index());
+  }
+
+  return adjacency_list;
+}
+
+void Graph::ReadAirports(const std::string& airports_file_name) {
   std::ifstream airport_file(airports_file_name);
   std::string line;
 
   // Open file and iterate through each line to fill airport hash table
+  size_t vertex_index = 0;
   if (airport_file.is_open()) {
     while (getline(airport_file, line)) {
-
+      // if (kVertices_.size() > 92) {
+      //   break;
+      // }
       // Convert line to stringstream object and grab each comma separated value
       std::stringstream ss(line);
       std::vector<std::string> vect;
@@ -45,11 +58,19 @@ void Graph::read_airports(const std::string& airports_file_name) {
         id = id.substr(1, id.size() - 2);
         std::string name = vect[1].substr(1, vect[1].size() - 2);
         std::string city = vect[2].substr(1, vect[2].size() - 2);
+        std::string country = vect[3].substr(1, vect[3].size() - 2);
         double longitude = std::stod(vect[7]);
         double latitude = std::stod(vect[6]);
 
-        Airport new_vertex(id, name, city, longitude, latitude);
+        // if (country != "United States") {
+        //   continue;
+        // }
+
+        Airport new_vertex(id, name, city, country, longitude, latitude, vertex_index);
         kVertices_.emplace(id, new_vertex);
+        kAirports_.push_back(new_vertex);
+
+        vertex_index++;
       } catch (const std::invalid_argument& error) {
           continue;
       }
@@ -57,7 +78,7 @@ void Graph::read_airports(const std::string& airports_file_name) {
   }
 }
 
-void Graph::read_routes(const std::string& routes_file_name) {
+void Graph::ReadRoutes(const std::string& routes_file_name) {
   std::ifstream route_file(routes_file_name);
   std::string line;
 
@@ -86,19 +107,14 @@ void Graph::read_routes(const std::string& routes_file_name) {
         double distance = CalculateAirportDistance(origin, destination);
 
         Route new_edge(origin, destination, distance);
-        kEdges_.push_back(new_edge);
+        if (std::find(kEdges_.begin(), kEdges_.end(), new_edge) == kEdges_.end()) {
+          kEdges_.push_back(new_edge);
+        }
       } catch (const std::out_of_range& error) {
         continue;
       }
     }
   }
-
-  Airport champaign = kVertices_.at("CMI");
-  Airport jfk = kVertices_.at("JFK");
-  std::cout << champaign.get_longitude() << " " << champaign.get_latitude() << std::endl;
-  std::cout << jfk.get_longitude() << " " << jfk.get_latitude() << std::endl;
-
-  std::cout << CalculateAirportDistance(champaign, jfk) << std::endl;
 }
 
 double Graph::ToRad(double degree) const {
@@ -112,7 +128,7 @@ double Graph::CalculateAirportDistance(const Airport& origin, const Airport& des
     double delta_long = ToRad(destination.get_longitude() - origin.get_longitude());
 
     double a = (std::sin((lat2 - lat1) / 2) * std::sin((lat2 - lat1) / 2)) + 
-               (std::cos(lat1) * std::cos(lat2)) +
+               (std::cos(lat1) * std::cos(lat2)) *
                (std::sin((delta_long) / 2) * std::sin((delta_long) / 2));
     double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));
 
