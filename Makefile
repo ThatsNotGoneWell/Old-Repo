@@ -38,6 +38,15 @@ main.o : main.cpp graph.h BFS.h
 graph.o : graph.cpp graph.h
 	$(CXX) $(CXXFLAGS) graph.cpp
 
+test: output_msg catchmain.o BFS_test.o graph.o BFS.o
+	$(LD) catchmain.o BFS_test.o BFS.o graph.o $(LDFLAGS) -o test
+
+catchmain.o : cs225/catch/catchmain.cpp cs225/catch/catch.hpp
+	$(CXX) $(CXXFLAGS) cs225/catch/catchmain.cpp
+
+BFS_test.o : BFS_test.cpp cs225/catch/catch.hpp BFS.h BFS.cpp
+	$(CXX) $(CXXFLAGS) BFS_test.cpp
+
 BFS.o : BFS.cpp BFS.h
 	$(CXX) $(CXXFLAGS) BFS.cpp
 

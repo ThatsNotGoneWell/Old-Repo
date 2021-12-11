@@ -65,6 +65,15 @@ BFS::BFS(const std::string departure, const std::string arrival) {
 
 // indicies instead of airport objects themselves
 bool BFS::findShortestPath(int pred[], int dist[]) {
+    // finds indicies of departure and arrival airports
+    // for (auto elem : airport_map) {
+    //     if (elem.second == departure) {
+    //         departure_index = elem.first;
+    //     } else if (elem.second == arrival) {
+    //         arrival_index = elem.first;
+    //     }
+    // }
+
 
     // array to track visited nodes
     bool visited[num_of_airports];
@@ -139,4 +148,6 @@ void BFS::printShortestPath() {
     for (int i = path.size() - 1; i >= 0; i--) {
         std::cout << path[i] << " ";
     }
+
+    path_length = path.size();
 }
