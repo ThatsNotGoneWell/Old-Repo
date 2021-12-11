@@ -6,6 +6,13 @@
 Graph graph("data/airports.dat.txt", "data/routes.dat.txt");
 BFS bfs(graph);
 
+// 0
+TEST_CASE("Check inputs are valid", "[weight=1]") {
+    bfs.printShortestPath("", "");
+    
+    REQUIRE(bfs.getRouteLength() == 0);
+}
+
 // 1
 TEST_CASE("Check SFO to PEK", "[weight=1]") {
     bfs.printShortestPath("PEK", "SFO");

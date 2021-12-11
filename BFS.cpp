@@ -80,6 +80,15 @@ bool BFS::findShortestPath(const std::string& departure, const std::string& arri
 }
 
 void BFS::printShortestPath(const std::string& departure, const std::string& arrival) {
+    // checks if departure and arrival airports are valid
+    try {
+        airport_obj_copies.at(departure);
+        airport_obj_copies.at(arrival);
+    } catch (...) {
+        std::cout << "\nOne of your airports does not exist!" << std::endl;
+        return;
+    }
+
     int prev_nodes[num_of_airports], node_dists[num_of_airports];
  
     // checks for a path
