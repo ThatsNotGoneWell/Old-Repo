@@ -26,15 +26,8 @@ std::vector<Airport> dijkstra::find_shortest(const std::string& arrival, const s
   int departure_idx = kGraph_.GetAirport(departure).GetIndex();
   
   
-  if (kGraph_.GetAirport(arrival).GetID() == "NULL") {
-    std::vector<Airport> tem;
-    tem.push_back(Airport(arrival , "", "" , "", 0, 0, -1));
-    return tem ;
-  }
-  if (kGraph_.GetAirport(departure).GetID () == "NULL") {
-    std::vector<Airport> tem ;
-    tem.push_back(Airport(departure , "", "" , "", 0, 0, -1));
-    return tem ;
+  if (kGraph_.GetAirport(arrival).GetID() == "NULL" || kGraph_.GetAirport(departure).GetID () == "NULL") {
+    return std::vector<Airport>();
   }
 
   std::vector<std::vector<int>> adj_list = kGraph_.MakeAdjacencyList(); 

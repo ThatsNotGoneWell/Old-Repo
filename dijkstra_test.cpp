@@ -7,7 +7,7 @@ Graph dijkstra_graph("data/airports.dat.txt", "data/routes.dat.txt");
 TEST_CASE( "check airports that needs to travel directly " ,"[weight = 1]") {
   dijkstra dijkstra_(dijkstra_graph);
   std::vector<Airport> tem = dijkstra_.find_shortest("ORD", "SFO");
-  
+
   REQUIRE(tem[0].GetID() == "SFO");
   REQUIRE(tem[1].GetID() == "ORD");
 } 
@@ -23,23 +23,23 @@ TEST_CASE( "check airports that needs to travel across nodes " ,"[weight = 1]") 
 
 TEST_CASE( "check airports that doesn't need to travel " ,"[weight = 1]") {
   dijkstra dijkstra_(dijkstra_graph);
-  std::vector<Airport> tem = dijkstra_  . find_shortest("YHY", "YHY");
+  std::vector<Airport> tem = dijkstra_.find_shortest("YHY", "YHY");
   
-  REQUIRE (true ) ;
+  REQUIRE(tem.empty());
 } 
 
 TEST_CASE( "check airports that are not there  arrival " ,"[weight = 1]") {
   dijkstra dijkstra_(dijkstra_graph);
-  std::vector<Airport>tem   = dijkstra_.find_shortest("ABG", "YHY");
+  std::vector<Airport>tem = dijkstra_.find_shortest("ABG", "YHY");
   
-  REQUIRE(tem[0].GetID() == "ABG");
+  REQUIRE(tem.empty());
 }
 
 TEST_CASE( "check airports that are not there destinastion " ,"[weight = 1]") {
   dijkstra dijkstra_(dijkstra_graph);
-  std::vector<Airport> tem   = dijkstra_.find_shortest("YHY", "ABG");
+  std::vector<Airport> tem = dijkstra_.find_shortest("YHY", "ABG");
   
-  REQUIRE(tem[0].GetID()  == "ABG");
+  REQUIRE(tem.empty());
 }
 
 TEST_CASE( "check airports that are accross countries   " ,"[weight = 1]") {
@@ -72,8 +72,8 @@ TEST_CASE( "check airports that are accross country longer 3  " ,"[weight = 1]")
   
 } 
 
-TEST_CASE( "check airports that are not accross  " ,"[weight = 1]") {
+TEST_CASE( "check airports that are not accross" ,"[weight = 1]") {
   dijkstra dijkstra_(dijkstra_graph);
   std::vector<Airport> tem = dijkstra_.find_shortest("BNU", "PEK"); 
-  REQUIRE(tem.size() == 0);
+  REQUIRE(tem.empty());
 } 

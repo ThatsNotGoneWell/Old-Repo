@@ -8,7 +8,7 @@
 
 #include "graph.h"
 
-Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) {
+Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) : kNullAirport_("NULL", "", "", "", -1, -1, -1) {
   ReadAirports(airports_file_name);
   ReadRoutes(routes_file_name);
 }

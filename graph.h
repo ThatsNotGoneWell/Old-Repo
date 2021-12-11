@@ -25,7 +25,13 @@ public:
   /**
    * getter functions 
    */
-  inline const Airport& GetAirport(const std::string& airport_name) const { return kVertices_.at(airport_name); }
+  inline const Airport& GetAirport(const std::string& airport_name) const { 
+    try {
+      return kVertices_.at(airport_name); 
+    } catch (const std:: out_of_range & error ){
+      return kNullAirport_;
+    }
+  }
 
   inline const std::unordered_map<std::string, Airport>& GetVertices() const { return kVertices_; }
 
@@ -60,4 +66,5 @@ private:
   std::unordered_map<std::string, Airport> kVertices_;
   std::list<Route> kEdges_;
   std::vector<Airport> kAirports_;
+  const Airport kNullAirport_;
 };

@@ -15,13 +15,13 @@ int main() {
   std::vector<Airport> airports;
 
   dijkstra dijkstra_(graph);
-  std::vector<Airport> dijkstra_path = dijkstra_.find_shortest("ORD", "SFO");
-  std::vector<std::vector<int>> dijkstra_points = Visualizer::VisualizePath(dijkstra_path, 1944, 1009, "world_map.png", "dijkstra_path");
+  std::vector<Airport> dijkstra_path = dijkstra_.find_shortest("YHY", "PEK"); // ABJ to MNL 
+  std::vector<std::vector<int>> dijkstra_points = Visualizer::VisualizePath(dijkstra_path, 1944, 1009, "world_map.png", "canada_to_china");
 
   BFS bfs(graph);
-  bfs.printShortestPath("PEK", "SFO");
+  bfs.printShortestPath("RDD", "RKV");
   std::vector<Airport> bfs_path = bfs.getVisualizationPath();
-  std::vector<std::vector<int>> bfs_points = Visualizer::VisualizePath(bfs_path, 1944, 1009, "world_map.png", "bfs_path");
+  std::vector<std::vector<int>> bfs_points = Visualizer::VisualizePath(bfs_path, 1944, 1009, "world_map.png", "redding_to_reykjavik");
   
   return 1;
 }

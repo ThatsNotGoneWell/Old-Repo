@@ -25,7 +25,7 @@ public:
     png.readFromFile(input_file_name);
 
     int airport_size = 5;
-    int route_width = 1;
+    int route_width = 3;
 
     cs225::HSLAPixel route_color(216, 0.5, 0.5);
     cs225::HSLAPixel destination_airport_color(300, 0.5, 0.5);
