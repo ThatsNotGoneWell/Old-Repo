@@ -8,7 +8,7 @@
 
 #include "graph.h"
 
-Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) {
+Graph::Graph(const std::string& airports_file_name, const std::string& routes_file_name) :  kNullAirport_("NULL", "", "", -1, -1, -1) {
   read_airports(airports_file_name);
   read_routes(routes_file_name);
 }
@@ -113,9 +113,7 @@ void Graph::read_airports(const std::string& airports_file_name) {
         std::string country = vect[3].substr(1, vect[3].size() - 2);
 
         // only reads airpots in USA
-        if (country != "United States") {
-          continue;
-        }
+        
 
         Airport new_vertex(id, name, city, longitude, latitude, vertex_index);
         kVertices_.emplace(id, new_vertex);

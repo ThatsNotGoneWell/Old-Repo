@@ -43,5 +43,14 @@ BFS.o : BFS.cpp BFS.h
 dijkstra.o : dijkstra.cpp dijkstra.h 
 	$(CXX) $(CXXFLAGS) dijkstra.cpp 
 
+test: output_msg catchmain.o test_file.o graph.o dijkstra.h
+	$(LD) catchmain.o test_file.o graph.o dijkstra.o  $(LDFLAGS) -o test 
+
+test_file.o : test_file.cpp catch/catch.hpp graph.cpp graph.h dijkstra.h
+	$(CXX) $(CXXFLAGS) test_file.cpp 
+
+catchmain.o : catch/catchmain.cpp catch/catch.hpp
+	$(CXX) $(CXXFLAGS) catch/catchmain.cpp
+  
 clean :
 	-rm -f *.o $(EXENAME) test
