@@ -1,6 +1,6 @@
-Final Project Report
+#Final Project Report
 
-By Allen Shen, Zekai Zhang, Jacob Albus and Jiankun Yang
+##By Allen Shen, Zekai Zhang, Jacob Albus and Jiankun Yang
 
 For our final project, we chose to work on OpenFlights dataset and find the shortest path between two airports. We use a breadth-first search (BFS) to find the shortest unweighted path and Dijkstra's Algorithm to find the shortest weighted path. Then we do a visualization of the found shortest path by drawing it on a world map. 
 
@@ -13,3 +13,16 @@ The second algorithm we used is Djikstra’s algorithm. The main algorithm is st
 The last one we did is visualizing a map to show all the flight paths. The function is stored in visualizer.h. It takes a vector of airport objects, a file path to a world map png, the dimensions of the png, and the name of the desired output png. The code uses the longitude and latitude of each airport and projects them onto a 2d coordinate plane, from this point it draws a square around each airport location and draws the respective routes. It is important to note that formula used for projecting the longitude and latitude onto a 2d coordinate plane relies on the fact that the map projection is equirectangular
 
 We successfully achieved all we have planned to the beginning. We implemented BFS, Dijkstra's algorithm, and a visualization. We found that the results we get from our algorithm are generally quite straightforward, namely the shortest paths between two airports and that certain airports are secluded from the rest (no paths from one airport to another). Since we have a visualization of the result, we can see the shortest path generated on the map. We also attempted to use another algorithm called Johnson’s Algorithm, which would be used to find the longest path between two airports, but this did not work on large datasets like ours so we gave it up after the midpoint check. 
+
+Below are the images of some flight paths and a little description of them:
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/6bde6f68-9b2b-472b-9596-5aae827889ce">
+This is a visualization of all the flight routes in the dataset
+
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/79871464-40a8-48b6-8ac8-9932914569c9">
+This is a visualization of all the flight routes in Russia.
+
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/ef8e4bc6-21d8-41dd-af88-a7739994c34e">
+This is a visualization of the longest shortest flight path found using BFS which is between Redding, California and Reykjavik, Iceland. Specifically it goes from Redding to San Francisco to New York to Keflavik to Godthaab to Reykjavik.
+
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/6422c34d-9ede-45a9-a9f9-53b17ec45c4d">
+This is a visualization of a route from Beijing, China to Hay River, Canada. Specifically, it goes  from Beijing to Vancouver to Edmonton to Hay River.
