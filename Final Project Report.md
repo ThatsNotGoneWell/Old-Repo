@@ -15,10 +15,14 @@ The last one we did is visualizing a map to show all the flight paths. The funct
 We successfully achieved all we have planned to the beginning. We implemented BFS, Dijkstra's algorithm, and a visualization. We found that the results we get from our algorithm are generally quite straightforward, namely the shortest paths between two airports and that certain airports are secluded from the rest (no paths from one airport to another). Since we have a visualization of the result, we can see the shortest path generated on the map. We also attempted to use another algorithm called Johnson’s Algorithm, which would be used to find the longest path between two airports, but this did not work on large datasets like ours so we gave it up after the midpoint check. 
 
 ### Below are the images of some flight paths and a little description of them:
-<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/6bde6f68-9b2b-472b-9596-5aae827889ce"> ###### This is a visualization of all the flight routes in the dataset
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/6bde6f68-9b2b-472b-9596-5aae827889ce"> 
+###### This is a visualization of all the flight routes in the dataset
 
-<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/79871464-40a8-48b6-8ac8-9932914569c9"> ###### This is a visualization of all the flight routes in Russia.
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/79871464-40a8-48b6-8ac8-9932914569c9"> 
+###### This is a visualization of all the flight routes in Russia.
 
-<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/ef8e4bc6-21d8-41dd-af88-a7739994c34e"> ###### This is a visualization of the longest shortest flight path found using BFS which is between Redding, California and Reykjavik, Iceland. Specifically it goes from Redding to San Francisco to New York to Keflavik to Godthaab to Reykjavik.
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/ef8e4bc6-21d8-41dd-af88-a7739994c34e"> 
+###### This is a visualization of the longest shortest flight path found using BFS which is between Redding, California and Reykjavik, Iceland. Specifically it goes from Redding to San Francisco to New York to Keflavik to Godthaab to Reykjavik.
 
-<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/6422c34d-9ede-45a9-a9f9-53b17ec45c4d"> ###### This is a visualization of a route from Beijing, China to Hay River, Canada. Specifically, it goes  from Beijing to Vancouver to Edmonton to Hay River.
+<img width="528" alt="image" src="https://media.github-dev.cs.illinois.edu/user/11831/files/6422c34d-9ede-45a9-a9f9-53b17ec45c4d"> 
+###### This is a visualization of a route from Beijing, China to Hay River, Canada. Specifically, it goes  from Beijing to Vancouver to Edmonton to Hay River.
